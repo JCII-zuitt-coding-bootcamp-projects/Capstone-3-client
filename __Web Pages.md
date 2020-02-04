@@ -4,11 +4,11 @@
  (theres should be a super admin registered by default , hard coded sa )
 
 -Login
--Register
+-Register 
 
 
 ====== persons  | faces ===========
--Register person - Add faces image for registered person (by capturing or uploading image)
+-Add person - Add faces image for registered person (by capturing or uploading image)
 -Edit person page.
 -Recent detections
 -person detections page ( show)
@@ -27,3 +27,28 @@
 > sweet alert 2
 > sound effects for detection
 > 
+
+Navbar Menu Top
+-Admins = 
+		>View all( lists with roles button that open a modal or link , edit profile with modal )
+		>Register an admin
+-Persons = 
+		>View all - lists all person with.....
+				> detections button that redirect to detections of that person
+				> edit button that open in new link for edititing that person
+				> Add to watchlist button that open in new link and finalize the saving of new watchlists for that person, with cancelation
+
+
+		>Add person
+		>Add watchlist
+
+
+-Monitor
+	>Recent detections
+	>View watchlists - lists all person in watchlists with.....
+				>details button that show a modal of the case details
+				>Close case button that open in modal that ask for action taken , reload after saving the action
+				>
+
+-Start detection
+

@@ -6,31 +6,103 @@ import {Link} from 'react-router-dom'
 const NavbarContainer = (props)=> {
 	return (
 		<nav className="navbar is-black" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem'}}>
-		  <div className="navbar-brand">
-		  </div>
 
-		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '600px' }}>
+		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '700px' }}>
 		  	<Columns className="navbar-item" >
 		      <Columns.Column>
-		        <p className="bd-notification is-success">First</p>
+
+		        <div className="navbar-item has-dropdown is-hoverable">
+			        <a className="navbar-link">
+			          Admins
+			        </a>
+
+			        <div className="navbar-dropdown">
+			          <a className="navbar-item">
+			            View all
+			          </a>
+			          <a className="navbar-item">
+			            New admin
+			          </a>
+			        </div>
+			    </div>
+			    
+
 		      </Columns.Column>
 		      <Columns.Column>
-		        <p className="bd-notification is-info">Second</p>
+
+		        <div className="navbar-item has-dropdown is-hoverable">
+			        <a className="navbar-link">
+			          Persons
+			        </a>
+
+			        <div className="navbar-dropdown">
+			          <a className="navbar-item">
+			            View all
+			          </a>
+			          <a className="navbar-item">
+			            Add person
+			          </a>
+			        </div>
+			    </div>
+
 		      </Columns.Column>
 
 		      <Columns.Column size={3}>
+			        <Heading 
+			        		size={5}
+			        		className="has-text-black has-background-light has-text-centered"
+			        		style={{
+			        			borderRadius : "4rem",
+			        			width: "8rem",
+			        			height : "5rem",
+			        			position : "absolute",
+			        			left : "calc(50% - 4rem)", // 4 rem is 50% of the width
+			        			top : "33%",
+			        			margin : "0 auto",
+			        			border : "2px solid black"
 
-		        <Heading size={5}>
-		        	Capstone3
-		        </Heading>
-
+			        		}}
+			        >
+			        	<p>
+			        		Isee
+			        		{
+			        			/*
+								Lucy
+								LuSee
+								Lucee
+			        			*/
+			        		}
+			        	</p>
+			        	<div>
+			        		<img src="/assets/eye.png"
+			        			style={{
+				        			width : '58px'
+				        		}}
+			        		/>
+			        	</div>
+			        </Heading>
 		      </Columns.Column>
 
 		      <Columns.Column>
-		        <p className="bd-notification is-warning">Third</p>
+		        
+		        <div className="navbar-item has-dropdown is-hoverable">
+			        <a className="navbar-link">
+			          Monitor
+			        </a>
+
+			        <div className="navbar-dropdown">
+			          <a className="navbar-item">
+			            Recent detections
+			          </a>
+			          <a className="navbar-item">
+			            View watchlists
+			          </a>
+			        </div>
+			    </div>
+
 		      </Columns.Column>
 		      <Columns.Column>
-		        <p className="bd-notification is-warning">Fourth</p>
+		        <p className="bd-notification is-warning">Logout</p>
 		      </Columns.Column>
 		    </Columns>
 		    

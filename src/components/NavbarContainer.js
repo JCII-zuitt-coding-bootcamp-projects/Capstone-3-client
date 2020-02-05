@@ -59,11 +59,17 @@ const NavbarContainer = (props)=> {
 			        		}
 			        	</p>
 			        	<div>
-			        		<img src="/assets/eye.png"
-			        			style={{
-				        			width : '58px'
-				        		}}
-			        		/>
+			        		{/*<img src="/assets/eye.png"
+			        					        			style={{
+			        						        			width : '58px'
+			        						        		}}
+			        					        		/>*/}
+
+			        		<Link to="/live-monitoring" >
+			        			<i className="material-icons "  style={{ fontSize : '3.4rem' , color: 'black'}}>remove_red_eye</i>
+			        		</Link>
+						  	
+
 			        	</div>
 			        </Heading>
 		      </Columns.Column>

@@ -22,6 +22,9 @@ import CreateAdmin from './components/admin/CreateAdmin'
 import RecentDetections from './components/monitor/RecentDetections'
 import Watchlists from './components/monitor/Watchlists'
 
+import LiveMonitoring from './components/live/LiveMonitoring'
+
+
 
 
 
@@ -48,6 +51,7 @@ function App() {
 
             <Route path="/recent-detections" component={RecentDetections} />
             <Route path="/watchlists" component={Watchlists} />
+            <Route path="/live-monitoring" component={LiveMonitoring} />
 
 
             {/*<Route path="/member/update/:id" component={UpdateMember} />*/}

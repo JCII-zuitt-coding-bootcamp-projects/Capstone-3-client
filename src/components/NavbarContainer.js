@@ -1,49 +1,34 @@
 import React from 'react'
 import { Navbar,Container , Columns , Heading } from 'react-bulma-components';
 import {Link} from 'react-router-dom'
-
+import NavDropdown from './NavDropdown'
 
 const NavbarContainer = (props)=> {
 	return (
-		<nav className="navbar is-black" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem'}}>
+		<nav className="navbar is-black is-fixed-top container" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem'}}>
 
 		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '700px' }}>
 		  	<Columns className="navbar-item" >
 		      <Columns.Column>
 
-		        <div className="navbar-item has-dropdown is-hoverable">
-			        <a className="navbar-link">
-			          Admins
-			        </a>
-
-			        <div className="navbar-dropdown">
-			          <a className="navbar-item">
-			            View all
-			          </a>
-			          <a className="navbar-item">
-			            New admin
-			          </a>
-			        </div>
-			    </div>
-			    
+			      	<NavDropdown
+			      		mainTitle="Admins"
+			      		links={[
+			      			{ url : '/admins' , title : 'View all'},
+			      			{ url : '/admins/create' , title : '+ New admin'},
+			      		]}
+			      	/>
 
 		      </Columns.Column>
 		      <Columns.Column>
 
-		        <div className="navbar-item has-dropdown is-hoverable">
-			        <a className="navbar-link">
-			          Persons
-			        </a>
-
-			        <div className="navbar-dropdown">
-			          <a className="navbar-item">
-			            View all
-			          </a>
-			          <a className="navbar-item">
-			            Add person
-			          </a>
-			        </div>
-			    </div>
+			        <NavDropdown
+			      		mainTitle="People"
+			      		links={[
+			      			{ url : '/people' , title : 'View all'},
+			      			{ url : '/people/add' , title : '+ Add person'},
+			      		]}
+			      	/>
 
 		      </Columns.Column>
 
@@ -64,7 +49,7 @@ const NavbarContainer = (props)=> {
 			        		}}
 			        >
 			        	<p>
-			        		Isee
+			        		???
 			        		{
 			        			/*
 								Lucy
@@ -84,25 +69,18 @@ const NavbarContainer = (props)=> {
 		      </Columns.Column>
 
 		      <Columns.Column>
-		        
-		        <div className="navbar-item has-dropdown is-hoverable">
-			        <a className="navbar-link">
-			          Monitor
-			        </a>
 
-			        <div className="navbar-dropdown">
-			          <a className="navbar-item">
-			            Recent detections
-			          </a>
-			          <a className="navbar-item">
-			            View watchlists
-			          </a>
-			        </div>
-			    </div>
+			    <NavDropdown
+			      		mainTitle="Monitor"
+			      		links={[
+			      			{ url : '/recent-detections' , title : 'Recent detections'},
+			      			{ url : '/watchlists' , title : 'View watchlists'},
+			      		]}
+			    />
 
 		      </Columns.Column>
 		      <Columns.Column>
-		        <p className="bd-notification is-warning">Logout</p>
+		      <Link to="/logout" className="logout" >Logout</Link>
 		      </Columns.Column>
 		    </Columns>
 		    

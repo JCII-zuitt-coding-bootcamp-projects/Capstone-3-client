@@ -15,6 +15,14 @@ import NavbarContainer from './components/NavbarContainer'
 import Landing from './components/Landing'
 import Login from './components/Login'
 
+import Admins from './components/admin/Admins'
+import CreateAdmin from './components/admin/CreateAdmin'
+  import AddPerson from './components/people/AddPerson'
+  import People from './components/people/People'
+import RecentDetections from './components/monitor/RecentDetections'
+import Watchlists from './components/monitor/Watchlists'
+
+
 
 
 const client = new ApolloClient({
@@ -31,6 +39,17 @@ function App() {
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route path="/login" component={Login} />
+
+            <Route exact path="/admins" component={Admins} />
+            <Route path="/admins/create" component={CreateAdmin} />
+
+            <Route exact path="/people" component={People} />
+            <Route path="/people/add" component={AddPerson} />
+
+            <Route path="/recent-detections" component={RecentDetections} />
+            <Route path="/watchlists" component={Watchlists} />
+
+
             {/*<Route path="/member/update/:id" component={UpdateMember} />*/}
           </Switch>
 

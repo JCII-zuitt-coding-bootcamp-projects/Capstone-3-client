@@ -3,8 +3,8 @@
  ======= trackers (admins) =========
  (theres should be a super admin registered by default , hard coded sa )
 
--Login
--Register 
+-Login  ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+-Register  ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
 
 
 ====== persons  | faces ===========
@@ -27,11 +27,14 @@
 > sweet alert 2
 > sound effects for detection
 > 
+ /////////////////////////////////////
+
+
 
 Navbar Menu Top
 -Admins = 
 		>View all( lists with roles button that open a modal or link , edit profile with modal )
-		>Register an admin
+		>Register an admin  ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
 -Persons = 
 		>View all - lists all person with.....
 				> detections button that redirect to detections of that person
@@ -50,5 +53,8 @@ Navbar Menu Top
 				>Close case button that open in modal that ask for action taken , reload after saving the action
 				>
 
--Start detection
+-Start detection ung MATA!!!!!
+	- turn the eye to red when it has detected watchlists labeled as dangered
+	- turn the eye to orange when its warning...
+	- turn eye to green when its safe....
 

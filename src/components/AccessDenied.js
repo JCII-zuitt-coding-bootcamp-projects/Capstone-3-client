@@ -7,7 +7,7 @@ const AccessDenied = (props)=> {
 
 
 	return (
-		<div className="card has-background-black animated heartBeat" style={{ width : '500px', minHeight : '300px' , margin : '40px auto' , border : '0.4rem solid #4c000f'}} >
+		<div className="card has-background-black animated heartBeat" style={{ width : '500px', minHeight : '300px' , margin : '40px auto' , border : '0.2rem solid #4c000f'}} >
 		  <header className="card-header">
 		    <p className="card-header-title has-text-white is-centered">
 		      Warning

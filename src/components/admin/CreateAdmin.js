@@ -1,7 +1,17 @@
 import React, { useEffect }  from 'react'
 import { Container  } from 'react-bulma-components';
+import { useForm } from "react-hook-form";
+
 
 const CreateAdmin = (props) =>{
+
+	const { handleSubmit, register, errors } = useForm();
+
+	const onSubmitForm = data => {
+	    console.log(data);
+
+
+	}; //onSubmitForm Closing
 
 	//componentDidMount Equivalent
 	useEffect(() => {
@@ -20,51 +30,79 @@ const CreateAdmin = (props) =>{
 			  <div class="card-content">
 
 		  		<Container>
-			    	<form className="" style={{ width: '500px' , margin : '0 auto'}}>
+			    	<form className="" style={{ width: '500px' , margin : '0 auto'}} onSubmit={handleSubmit(onSubmitForm)}>
 
 			    		<h4 class="subtitle is-5 has-text-centered">Credentials</h4>
 
 				    	<div class="field">
 						  <div class="control">
-						    <input class="input" type="text" placeholder="Email" />
+						    <input 
+						    		class="input" 
+						    		type="text" 
+						    		placeholder="Email"
+						    />
 						  </div>
 						</div>
 
 						<div class="field">
 						  <div class="control">
-						    <input class="input" type="text" placeholder="Username" />
+						    <input 
+								    class="input" 
+								    type="text" 
+								    placeholder="Username" 
+						    />
 						  </div>
 						</div>
 
 						<div class="field">
 						  <div class="control">
-						    <input class="input" type="password" placeholder="Password" />
+						    <input
+								    class="input"
+								    type="password"
+								    placeholder="Password"
+						    />
 						  </div>
 						</div>
 
 						<h4 class="subtitle is-5 has-text-centered">Personal Information</h4>
 						<div class="field">
 						  <div class="control">
-						    <input class="input" type="text" placeholder="First name" />
+						    <input
+						    		class="input"
+						    		type="text"
+						    		placeholder="First name"
+						    />
 						  </div>
 						</div>
 
 						<div class="field">
 						  <div class="control">
-						    <input class="input" type="text" placeholder="Middle Name" />
+						    <input
+						    		class="input"
+						    		type="text"
+						    		placeholder="Middle Name"
+						    />
 						  </div>
 						</div>
 
 						<div class="field">
 						  <div class="control">
-						    <input class="input" type="text" placeholder="Last name" />
+						    <input
+						    		class="input" 
+						    		type="text" 
+						    		placeholder="Last name" 
+						    />
 						  </div>
 						</div>
 
 						<div class="field">
 						  <div class="control">
 						    <div class="select is-fullwidth">
-						      <select>
+						      <select
+
+
+
+						      >
 						        <option>Select Gender</option>
 						        <option value="Male">Male</option>
 						        <option value="Female">Female</option>

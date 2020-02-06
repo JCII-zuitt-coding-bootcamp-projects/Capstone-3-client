@@ -1,13 +1,17 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Navbar,Container , Columns , Heading } from 'react-bulma-components';
 import {Link} from 'react-router-dom'
 import NavDropdown from './NavDropdown'
 
 const NavbarContainer = (props)=> {
+
+	// const [auth, setAuth] = useState(localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth")) : null )
+
+	// alert()
 	return (
 		<nav className="navbar is-black is-fixed-top container" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem'}}>
 
-		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '700px' }}>
+		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '800px' }}>
 		  	<Columns className="navbar-item" >
 		      <Columns.Column>
 
@@ -86,7 +90,17 @@ const NavbarContainer = (props)=> {
 
 		      </Columns.Column>
 		      <Columns.Column>
-		      <Link to="/logout" className="logout" >Logout</Link>
+		      {
+		      	props.auth ? 
+		      	<NavDropdown
+			      		mainTitle={props.auth.username}
+			      		links={[
+			      			{ url : '/logout' , title : 'Logout'},
+			      		]}
+			    /> :
+		      	<Link to="/login" className="logout" >Login</Link>
+		      }
+		      
 		      </Columns.Column>
 		    </Columns>
 		    

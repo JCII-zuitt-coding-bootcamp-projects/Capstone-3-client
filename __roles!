@@ -1,0 +1,11 @@
+
+
+//roles in string
+
+view-admins,
+add-admin,
+view-people,
+add-person,
+recent-detections,
+view-watchlists,
+live-monitoring

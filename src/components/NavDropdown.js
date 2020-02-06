@@ -15,6 +15,7 @@ const NavDropdown = (props)=> {
 	        	{
 	        		props.links.map( link =>{
 	        			return <Link
+	        						key={ link.url } 
 	        						to={ link.url } 
 	        						className="navbar-item"
 	        					>

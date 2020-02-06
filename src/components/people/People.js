@@ -1,16 +1,52 @@
 import React, { useEffect , useState}  from 'react'
 import { Container } from 'react-bulma-components';
 
+import { graphql } from "react-apollo"
+import PersonTr from "./PersonTr"
+
+
+import { getAllPeople } from "../../gql/queriesFacade";
+import Swal from 'sweetalert2'
+
+
+
 import EditProfile from './modal/EditProfile'
 const People = (props) =>{
 
 
 	const [editProfileisActive,setEditProfileisActive] = useState(false)
+	const [people,setPeople] = useState(null) // array of people
+	const [isPeopleFetched,setIsPeopleFetched] = useState(false) // used for refetching
+
+
+
+	if(props.data.getAllPeople === undefined ){
+		Swal.fire({
+			// icon: "error",
+			title: "Fetching data...",
+			allowOutsideClick : false,
+			onBeforeOpen: () => {
+			    Swal.showLoading()
+			  },
+		})
+	}else{
+		if(!isPeopleFetched){
+			setPeople(props.data.getAllPeople)
+			setIsPeopleFetched(true)
+
+		}
+		
+
+		Swal.close()
+	}
 
 	//componentDidMount Equivalent
 	useEffect(() => {
 	    document.title = 'People database';
 	}, [])
+
+
+	console.log('People: ' , people);
 
 	return (
 			<div className="card has-background-black" style={{ width : 'auto' , margin : '40px auto' ,}} >
@@ -25,7 +61,7 @@ const People = (props) =>{
 		  			<table className="table is-fullwidth">
 		  				<thead>
 						    <tr>
-						      <th>Photo</th>
+						      <th >Photo</th>
 						      <th><i className="material-icons">flag</i></th>
 						      <th>First name</th>
 						      <th>Last name</th>
@@ -35,87 +71,13 @@ const People = (props) =>{
 						    </tr>
 						  </thead>
 						  <tbody>
-						  	<tr>
-						  		<td>
-						  			<figure class="image is-64x64">
-									  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
-									</figure>
-						  		</td>
-						  		<td>
-						  			<figure class="image is-48x48">
-									  <img className="" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg"/>
-									</figure>
-						  		</td>
+						  	
+						  	<PersonTr
+						  			people={people}
+						  			setEditProfileisActive={setEditProfileisActive}
 
-						  		<td>John</td>
-						  		<td>Doe</td>
-						  		<td>Male</td>
-						  		<td>
-						  			<button className="button is-success is-outlined is-fullwidth"
-						  					onClick={ e => setEditProfileisActive(true) }
-						  			>
-						  				<i className="material-icons">edit</i>
-						  				Profile
-						  			</button>
-						  		</td>
-						  		<td>
-						  			<button className="button is-primary is-outlined is-fullwidth">
-						  				<i className="material-icons">face</i>
-						  				Add Face
-						  			</button>
-						  		</td>
-						  		<td>
-						  			<button className="button is-link is-outlined is-fullwidth">
-						  				<i className="material-icons">add_a_photo</i>
-						  				Detections
-						  			</button>
-						  		</td>
-						  		<td className="has-text-centered">
-						  			<i className="material-icons" >remove_red_eye</i>
-						  		</td>
+						  	/>
 
-						  	</tr>
-
-						  	<tr>
-						  		<td>
-						  			<figure class="image is-64x64">
-									  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
-									</figure>
-						  		</td>
-						  		<td>
-						  			<figure class="image is-48x48">
-									  <img className="" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg"/>
-									</figure>
-						  		</td>
-
-						  		<td>John</td>
-						  		<td>Doe</td>
-						  		<td>Female</td>
-						  		<td>
-						  			<button className="button is-success is-outlined is-fullwidth"
-						  					onClick={ e => setEditProfileisActive(true) }
-						  			>
-						  				<i className="material-icons">edit</i>
-						  				Profile
-						  			</button>
-						  		</td>
-						  		<td>
-						  			<button className="button is-primary is-outlined is-fullwidth">
-						  				<i className="material-icons">face</i>
-						  				Add Face
-						  			</button>
-						  		</td>
-						  		<td>
-						  			<button className="button is-link is-outlined is-fullwidth">
-						  				<i className="material-icons">add_a_photo</i>
-						  				Detections
-						  			</button>
-						  		</td>
-						  		<td className="has-text-centered">
-						  			<i className="material-icons has-text-danger" >remove_red_eye</i>
-						  		</td>
-
-						  	</tr>
 						  </tbody>
 		  			</table>
 		  		</Container>
@@ -130,4 +92,6 @@ const People = (props) =>{
 }
 
 
-export default People;
+// export default People;
+
+export default graphql(getAllPeople)(People) // for 1 graphql quiries/mutation

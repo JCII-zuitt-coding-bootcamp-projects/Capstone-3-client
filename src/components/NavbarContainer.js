@@ -11,7 +11,7 @@ const NavbarContainer = (props)=> {
 	return (
 		<nav className="navbar is-black is-fixed-top container" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem' , border : '0.1rem solid #103879'}}>
 
-		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '800px' }}>
+		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '950px' }}>
 		  	<Columns className="navbar-item" >
 		      <Columns.Column>
 
@@ -93,7 +93,7 @@ const NavbarContainer = (props)=> {
 		      {
 		      	props.auth ? 
 		      	<NavDropdown
-			      		mainTitle={props.auth.username}
+			      		mainTitle={<span><i className="material-icons is-pulled-left">account_circle</i>{props.auth.username}</span>}
 			      		links={[
 			      			{ url : '/logout' , title : 'Logout'},
 			      		]}

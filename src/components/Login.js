@@ -48,8 +48,11 @@ const Login = (props)=> {
 					title: "Wrong credentials",
 				})
 			}else{
-				console.log(res.data.loginAdmin)
-				// alert("Corrrect credentials! Redirect to something page!")
+				Swal.fire({
+					icon: "success",
+					title: `Login as : ${res.data.loginAdmin.username}`,
+					allowOutsideClick : false,
+				})
 
 				let authInString = JSON.stringify(res.data.loginAdmin);
 				localStorage.setItem("auth", authInString);

@@ -9,8 +9,16 @@ class MonitorCam extends Component{
 
 	}
 
+	shouldComponentUpdate(nextProps, nextState){
+			// alert("ssshould")
+			// alert( nextProps )
+			return false; // avoid too much rerendering of the webcam!
+	}
 
 	render(){
+
+		// alert('camera called!')
+
 		return (
 			<Webcam
 		  		audio={false}
@@ -25,7 +33,7 @@ class MonitorCam extends Component{
 		  			console.log("onUserMedia received a stream!")
 		  		}}
 		  		id="videoCam"
-		  		onPlay={ this.props.playHandler }
+		  		// onPlay={ this.props.playHandler } // the playHandler will be called if all model is loaded
 		  	/>
 
 			)

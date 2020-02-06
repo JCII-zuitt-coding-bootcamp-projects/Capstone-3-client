@@ -5,6 +5,12 @@ import './Monitor.css';
 import MonitorCam from './MonitorCam'
 import DetectionSide from './DetectionSide'
 
+import { graphql } from "react-apollo"
+import { getAllPeopleInfoForCameraDetection } from "../../gql/queriesFacade";
+
+
+import Swal from 'sweetalert2'
+
 
 import * as faceapi from 'face-api.js';
 
@@ -15,9 +21,19 @@ class LiveMonitoring extends Component{
 		super(props)
 
 		this.onPlayHandler = this.onPlayHandler.bind(this);
+
+		Swal.fire({
+			// icon: "error",
+			title: "Loading faces database...",
+			allowOutsideClick : false,
+			onBeforeOpen: () => {
+			    Swal.showLoading()
+			  },
+		})
 	}
 
 	state = {
+		monitorOn : false,
 		modelsIsLoaded : false,
 		cameraIsLoaded : false,
 		interval : null,
@@ -25,7 +41,30 @@ class LiveMonitoring extends Component{
 
 		detections : [
 			// { key : 'dfddg' , name : 'John Joe'},
-		]
+		],
+
+		peopleDb : null,
+	}
+
+	// shouldComponentUpdate(nextProps, nextState){
+	// 		return true; // avoid too much rerendering of the main live monitoring!
+	// }
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+		if(this.props.data.getAllPeople != undefined && this.state.peopleDb == null){
+			this.setState({ peopleDb : this.props.data.getAllPeople })
+			// alert("peopleDb retrieved...")
+			
+		}
+
+		if(this.state.modelsIsLoaded && this.state.peopleDb != null && !this.state.monitorOn){
+				this.onPlayHandler() // after getting peopleDB .... get now the images of the faces on onPlayHanlder
+				this.setState({ monitorOn : true })
+
+				// alert("monitoring will start")
+			}
+
 	}
 
 	async loadModels(){
@@ -40,27 +79,41 @@ class LiveMonitoring extends Component{
 	}
 
 	async loadLabeledImages(){
-		const labels = ['Super Lumssss','Black Widow', 'Captain America', 'Captain Marvel', 'Hawkeye', 'Jim Rhodes', 'Thor', 'Tony Stark']
+
+		let peopleDb = [...this.state.peopleDb]
+
 		  return Promise.all(
-		    labels.map(async label => {
+		    peopleDb.map(async (person , index) => {
 		      const descriptions = []
-		      for (let i = 1; i <= 2; i++) {
-		        const img = await faceapi.fetchImage(`/labeled_images/${label}/${i}.jpg`) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
-		        const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-		        descriptions.push(detections.descriptor)
+		      for (let face of person.faces) {
+
+			      	console.log(`http://localhost:4000/faces/${face.image}.jpg`)
+			        
+			        try{
+			        	const img = await faceapi.fetchImage(`http://localhost:4000/faces/${face.image}`) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
+			        	const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+			        	descriptions.push(detections.descriptor)
+			        }catch(e){
+			        	console.log(e)
+			        	alert("image not found!")
+			        }
+		        
 		      }
 
-		      return new faceapi.LabeledFaceDescriptors(label, descriptions)
+		      if(descriptions.length > 0){ // dapay may atleast 1 image for the face
+		      	return new faceapi.LabeledFaceDescriptors(index.toString(), descriptions)
+		      }
+		      
 		    })
 		  )
 	}
 
 
-	isDetected(name){
+	isDetected(personIndex){
 
 		var found = false;
 		for(var i = 0; i < this.state.detections.length; i++) {
-		    if (this.state.detections[i].name == name) {
+		    if (this.state.detections[i].key == personIndex) {
 		        found = true;
 		        break;
 		    }
@@ -89,6 +142,7 @@ class LiveMonitoring extends Component{
 
 		// return;
 
+
 		//cleaning when re calling onPlayHandler
 			clearInterval(this.state.interval);
 			if( document.querySelector("canvas") ){
@@ -97,8 +151,13 @@ class LiveMonitoring extends Component{
 
 
 		//--------------- | Loade labeled Images | ----------------------//
-		let labeledFaceDescriptors = await this.loadLabeledImages()
+		if(this.state.labeledFaceDescriptors == null){
+			let newlabeledFaceDescriptors = await this.loadLabeledImages()
+			this.setState({labeledFaceDescriptors : newlabeledFaceDescriptors})
+		}
 
+		
+		Swal.close() //close the loading modal if all models loaded
 
 
 					// For FUTURE optimation for fast loading of model caching in localstorage...
@@ -125,7 +184,7 @@ class LiveMonitoring extends Component{
 
 
 
-		const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+		const faceMatcher = new faceapi.FaceMatcher(this.state.labeledFaceDescriptors, 0.6)
 		console.log("Labeled images loaded!!!!!")
 
 		console.log("Onplay hanlder-- start monitoring streams...")
@@ -159,26 +218,38 @@ class LiveMonitoring extends Component{
 					    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
 					    // faceapi.draw.drawDetections(canvas, resizedDetections)
 					    // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-					    faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+					    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
 
 
 					    //looping of the detected
 					    const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
 					    results.forEach((result, i) => {
 					      const box = resizedDetections[i].detection.box
-					      // console.log(result._label)
-					      const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() , lineWidth: 10 , boxColor: 'pink' })
-					      drawBox.draw(canvas)
 
-					      if(result._label != 'unknown'){
+					      if(result._label == 'unknown'){
 
-					      		if( !this.isDetected(result._label) ){
-					      			console.log(result._label)
+					      
+							      const drawBox = new faceapi.draw.DrawBox(box, { label: 'Unknown face' , lineWidth: 10 , boxColor: 'pink' })
+							      drawBox.draw(canvas)
+							      
+							      console.log('detected labeled' , result)
+
+					      }else{
+
+
+					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 10 , boxColor: 'pink' })
+							    drawBox.draw(canvas)
+							      
+							    console.log('detected labeled' , result)
+
+							    let key = result.label //Math.random().toString(36).substring(7);
+					      		if( !this.isDetected(key) ){
+					      			// console.log(result._label)
 
 							      	let newDetections = [...this.state.detections];
 							      	console.log('zzzzzzz' , newDetections)
-							      	let key = Math.random().toString(36).substring(7);
-							      	newDetections.unshift({ key : key , name : result._label})
+							      	
+							      	newDetections.unshift({ key : key , name : this.state.peopleDb[result.label].firstName})
 
 
 							      	setTimeout(()=>{
@@ -198,7 +269,7 @@ class LiveMonitoring extends Component{
 
 					    })
 
-			  		}, 100)
+			  		}, 50)
 
 		  })
 	}
@@ -212,12 +283,12 @@ class LiveMonitoring extends Component{
 		});
 
 
-		window.addEventListener('resize', e =>{
-			console.log("resized!")
-			this.onPlayHandler() //to resized the canvas
-			// let cam = document.getElementById('videoCam');
-			// console.log(cam.offsetWidth , cam.offsetHeight)
-		});
+		// window.addEventListener('resize', e =>{
+		// 	console.log("resized!")
+		// 	this.onPlayHandler() //to resized the canvas
+		// 	// let cam = document.getElementById('videoCam');
+		// 	// console.log(cam.offsetWidth , cam.offsetHeight)
+		// });
 	}
 
 
@@ -226,6 +297,9 @@ class LiveMonitoring extends Component{
 
 
 	render(){
+
+		// alert('monmon called!')
+
 		return (
 			<div>
 	          	<div className="columns">
@@ -233,14 +307,10 @@ class LiveMonitoring extends Component{
 
 
 				  	<div id="cameraDiv">
-				  	{
-				  		this.state.cameraIsLoaded ?
 				  		<MonitorCam 
 					  		cameraIsLoaded={this.state.cameraIsLoaded}
 					  		playHandler={this.onPlayHandler}
 				  		/>
-					  	: null
-				  	}
 				  	</div>
 
 				  </div>
@@ -259,4 +329,6 @@ class LiveMonitoring extends Component{
 
 }
 
-export default LiveMonitoring
+// export default LiveMonitoring
+
+export default graphql(getAllPeopleInfoForCameraDetection)(LiveMonitoring)

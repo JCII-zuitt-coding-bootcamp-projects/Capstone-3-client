@@ -8,6 +8,7 @@ import DetectionSide from './DetectionSide'
 import { graphql } from "react-apollo"
 import { getAllPeopleInfoForCameraDetection } from "../../gql/queriesFacade";
 
+import { nodeServer } from "../../base64function.js"
 
 import Swal from 'sweetalert2'
 
@@ -87,15 +88,15 @@ class LiveMonitoring extends Component{
 		      const descriptions = []
 		      for (let face of person.faces) {
 
-			      	console.log(`http://localhost:4000/faces/${face.image}.jpg`)
-			        
+			      	console.log(nodeServer() + face.image)
+			      	
 			        try{
-			        	const img = await faceapi.fetchImage(`http://localhost:4000/${face.image}`) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
+			        	const img = await faceapi.fetchImage(nodeServer() + face.image) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
 			        	const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
 			        	descriptions.push(detections.descriptor)
 			        }catch(e){
 			        	console.log(e)
-			        	alert("image not found!")
+			        	console.log("image not found... error on the image folder source!")
 			        }
 		        
 		      }

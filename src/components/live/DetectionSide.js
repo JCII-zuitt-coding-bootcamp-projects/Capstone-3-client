@@ -1,4 +1,7 @@
 import React , { Component } from 'react'
+import { findFlagUrlByCountryName } from "country-flags-svg";
+import { nodeServer } from "../../base64function.js"
+
 
 class DetectionSide extends Component{
 
@@ -11,9 +14,10 @@ class DetectionSide extends Component{
 
 	render(){
 
+		// alert("zd?????????????")
 		console.log(this.props)
 		return (
-			<div className="card has-background-dark" style={{ width : 'auto' , height :'100vh' }} >
+			<div className="card has-background-dark" style={{ width : 'auto' , height :'100%' }} >
 				<header className="card-header">
 				    <p className="card-header-title has-text-white is-centered">
 				      <i className="material-icons">live_tv</i> &nbsp;&nbsp;Live Detections
@@ -23,23 +27,37 @@ class DetectionSide extends Component{
 
 			  		{
 			  			this.props.detections.map( detection => {
-			  				return <article className="message is-success animated  bounceIn" key={detection.key}>
+			  				console.log('detectionzzzww' , detection)
+			  				const person = detection.person;
+			  				return <article 
+			  								className={ person.isWatched ? 'message is-danger animated  bounceIn' : 'message is-success animated  bounceIn' }
+
+
+			  								key={detection.key}
+
+			  								>
 									  <div className="message-header">
-									    {detection.name}
-										  <img style={{ width : '48px'}} className="" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg"/>
+									    {`${person.firstName} ${person.middleName} ${person.lastName} `}
+										  <img style={{ width : '48px'}} className="" src={ findFlagUrlByCountryName( person.nationality ) } />
 
 									  </div>
 									  <div className="message-body">
 									    <div className="columns ">
 									    	<div className="column">
-									    		<figure className="image is-128x128">
-												  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
-												</figure>
+									    		<center>
+									    			<figure className="image is-128x128">
+													  <img className="" src={nodeServer() + person.image } />
+													</figure>
+									    		</center>
 									    	</div>
 									    	<div className="column">
-									    		<figure className="image is-128x128">
-												  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
-												</figure>
+									    		{
+									    			/*
+														<figure className="image is-128x128">
+														  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
+														</figure>
+									    			*/
+									    		}
 
 									    	</div>
 									    </div>

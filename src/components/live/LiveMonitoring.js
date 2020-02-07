@@ -40,7 +40,7 @@ class LiveMonitoring extends Component{
 		labeledFaceDescriptors : null,
 
 		detections : [
-			// { key : 'dfddg' , name : 'John Joe'},
+			// { key : 'dfddg' , person : [name , image] },
 		],
 
 		peopleDb : null,
@@ -90,7 +90,7 @@ class LiveMonitoring extends Component{
 			      	console.log(`http://localhost:4000/faces/${face.image}.jpg`)
 			        
 			        try{
-			        	const img = await faceapi.fetchImage(`http://localhost:4000/faces/${face.image}`) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
+			        	const img = await faceapi.fetchImage(`http://localhost:4000/${face.image}`) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
 			        	const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
 			        	descriptions.push(detections.descriptor)
 			        }catch(e){
@@ -184,7 +184,7 @@ class LiveMonitoring extends Component{
 
 
 
-		const faceMatcher = new faceapi.FaceMatcher(this.state.labeledFaceDescriptors, 0.6)
+		const faceMatcher = new faceapi.FaceMatcher(this.state.labeledFaceDescriptors, 0.5)
 		console.log("Labeled images loaded!!!!!")
 
 		console.log("Onplay hanlder-- start monitoring streams...")
@@ -203,8 +203,8 @@ class LiveMonitoring extends Component{
 		  const displaySize = { width: videoCam.width, height: videoCam.height }
 		  faceapi.matchDimensions(canvas, displaySize)
 
-		  this.setState({
-		  	interval : setInterval(async () => {
+		  // this.setState({ interval :
+		  	 setInterval(async () => {
 					    const detections = await faceapi.detectAllFaces(videoCam, new faceapi.TinyFaceDetectorOptions())
 					    								.withFaceLandmarks()
 					    								.withFaceDescriptors()	//for face detection
@@ -226,19 +226,26 @@ class LiveMonitoring extends Component{
 					    results.forEach((result, i) => {
 					      const box = resizedDetections[i].detection.box
 
-					      if(result._label == 'unknown'){
+
 
 					      
-							      const drawBox = new faceapi.draw.DrawBox(box, { label: 'Unknown face' , lineWidth: 10 , boxColor: 'pink' })
-							      drawBox.draw(canvas)
+
+					      if(result._label == 'unknown'){
+
+					      		document.getElementById("eye").style.color = '#F7DC6F'
+
+							      const drawBox = new faceapi.draw.DrawBox(box, { label: 'Unknown' , lineWidth: 15 , boxColor: '#F7DC6F' })
+		drawBox.draw(canvas)
 							      
 							      console.log('detected labeled' , result)
 
 					      }else{
 
 
-					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 10 , boxColor: 'pink' })
-							    drawBox.draw(canvas)
+					      		document.getElementById("eye").style.color = this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" ;
+
+					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 15 , boxColor: this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" })
+		drawBox.draw(canvas)
 							      
 							    console.log('detected labeled' , result)
 
@@ -249,14 +256,16 @@ class LiveMonitoring extends Component{
 							      	let newDetections = [...this.state.detections];
 							      	console.log('zzzzzzz' , newDetections)
 							      	
-							      	newDetections.unshift({ key : key , name : this.state.peopleDb[result.label].firstName})
+							      	newDetections.unshift({ key : key , person : this.state.peopleDb[result.label]})
 
 
 							      	setTimeout(()=>{
 							      		// alert("to be deleted!" , key)
 							      		this.removeDetectionByKey(key)
 							      		console.log(key)
-							      	},4000)
+					      				document.getElementById("eye").style.color = '#000'
+
+							      	},5000)
 
 							      	this.setState({ detections : newDetections});
 							      	console.log('new detections' , this.state.detections )
@@ -271,7 +280,7 @@ class LiveMonitoring extends Component{
 
 			  		}, 50)
 
-		  })
+		  // }) //Timer setState closing 
 	}
 
 	componentDidMount(){

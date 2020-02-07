@@ -4,9 +4,13 @@ import { Container } from 'react-bulma-components';
 import { graphql } from "react-apollo"
 import PersonTr from "./PersonTr"
 
+import { flowRight as compose } from 'lodash'
 
 import { getAllPeople } from "../../gql/queriesFacade";
 import Swal from 'sweetalert2'
+
+
+import { toggleWatchlist } from "../../gql/mutationsFacade";
 
 
 
@@ -46,13 +50,51 @@ const People = (props) =>{
 	}, [])
 
 
+	console.log(props)
+	const toggleWatchList = (id,isWatched , index) => {
+		
+		Swal.fire({
+			// icon: "error",
+			title: isWatched ? "Adding to watchlist..." : 'Removing from watchlist...',
+			allowOutsideClick : false,
+			onBeforeOpen: () => {
+			    Swal.showLoading()
+			  },
+		})
+
+
+		console.log("toggled as :" , isWatched)
+
+		let data = {
+			id : id,
+			isWatched : isWatched
+		}
+
+			props.toggleWatchlist({
+				variables : data,
+				refetchQueries : [{query : getAllPeople }]
+			}).then( data =>{
+				// props.history.goBack();
+				// // Swal.close()
+				console.log('bbbb' , data)
+				// alert("nag update!!!!!!!!!!!!")
+
+				let newPeople = [...people]
+				newPeople[index].isWatched = isWatched;
+
+				setPeople(newPeople);
+			})
+	}
+
+
+
 	console.log('People: ' , people);
 
 	return (
 			<div className="card has-background-black" style={{ width : 'auto' , margin : '40px auto' ,}} >
 			  <header className="card-header">
 			    <p className="card-header-title has-text-white is-centered">
-			      Admin Lists
+			      People Lists
 			    </p>
 			  </header>
 			  <div className="card-content">
@@ -66,7 +108,7 @@ const People = (props) =>{
 						      <th>First name</th>
 						      <th>Last name</th>
 						      <th>Gender</th>
-						      <th colSpan="3" className="has-text-centered">- Actions -</th>
+						      <th colSpan="1" className="has-text-centered">- Actions -</th>
 						      <th className="has-text-centered">Status</th>
 						    </tr>
 						  </thead>
@@ -75,6 +117,7 @@ const People = (props) =>{
 						  	<PersonTr
 						  			people={people}
 						  			setEditProfileisActive={setEditProfileisActive}
+						  			toggleWatchList={toggleWatchList}
 
 						  	/>
 
@@ -94,4 +137,16 @@ const People = (props) =>{
 
 // export default People;
 
-export default graphql(getAllPeople)(People) // for 1 graphql quiries/mutation
+// export default graphql(getAllPeople)(People) // for 1 graphql quiries/mutation
+
+
+export default compose(
+
+		graphql(getAllPeople), //for selection of team options //, { name : "getAllPeople" } 
+		graphql(toggleWatchlist , { name : 'toggleWatchlist' })
+
+		)(People);
+
+
+// graphql(getTeamsQuery , { name : "getTeamsQuery" }), //for selection of team options
+// 		graphql(updateMemberMutation , { name : "updateMember" })

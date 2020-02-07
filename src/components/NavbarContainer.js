@@ -52,8 +52,8 @@ const NavbarContainer = (props)=> {
 
 			        		}}
 			        >
-			        	<p>
-			        		???
+			        	<p style={{ marginTop: '5px'}}>
+			        		EyeSecure
 			        		{
 			        			/*
 								Lucy
@@ -70,7 +70,7 @@ const NavbarContainer = (props)=> {
 			        					        		/>*/}
 
 			        		<Link to="/live-monitoring" >
-			        			<i className="material-icons "  style={{ fontSize : '3.4rem' , color: 'black'}}>remove_red_eye</i>
+			        			<i className="material-icons  "  id="eye" style={{ fontSize : '3.4rem' , color: 'black'}}>remove_red_eye</i>
 			        		</Link>
 						  	
 

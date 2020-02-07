@@ -10,6 +10,8 @@ import { createPerson } from "../../gql/mutationsFacade";
 
 import Swal from 'sweetalert2'
 
+import {toBase64 , nodeServer } from "../../base64function.js"
+
 
 const AddPerson = (props) =>{
 
@@ -17,9 +19,10 @@ const AddPerson = (props) =>{
 	const { handleSubmit, register, errors } = useForm();
 
 	const onSubmitForm = personData => {
-	    console.log(personData);
+	    
+		// console.log(personData);
 
-	    Swal.fire({
+		Swal.fire({
 			// icon: "error",
 			title: "Adding new person...",
 			allowOutsideClick : false,
@@ -28,19 +31,41 @@ const AddPerson = (props) =>{
 			  },
 		})
 
-	    props.createPerson({
-			variables : personData,
-			// refetchQueries : [{query : getMembersQuery }]
-		}).then((data) => {
-			console.log(data)
 
-			Swal.close()
-			Swal.fire({
-				icon: "success",
-				title: "New person added successfully",
-			})
+	    toBase64(personData.image[0]).then( encodedFile =>{
+				// console.log('encodedFilezzzzz' ,encodedFile)
+				personData.image = encodedFile; // pass the base 64 file...
 
-		})
+				// console.log('finalzz' ,personData)
+
+				props.createPerson({
+					variables : personData,
+					// refetchQueries : [{query : getMembersQuery }]
+				}).then((data) => {
+					console.log(data)
+
+					Swal.close()
+					Swal.fire({
+						icon: "success",
+						title: "New person added successfully",
+					})
+
+					window.location.href = '/people'
+
+				})
+
+				
+				
+
+
+
+
+		}) //toBase64 ending...
+
+
+	    
+
+	    
 
 	}; //onSubmitForm Closing
 
@@ -49,7 +74,7 @@ const AddPerson = (props) =>{
 
 	//componentDidMount Equivalent
 	useEffect(() => {
-		console.log(props)
+		// console.log(props)
 	    document.title = '+Add new Person';
 	    // console.log(errors)
 	    // console.log(countries)
@@ -176,6 +201,21 @@ const AddPerson = (props) =>{
 						      </select>
 						    </div>
 						    <p className="help is-danger">{ errors.nationality && errors.nationality.message}</p>
+						  </div>
+						</div>
+
+						<div className="field">
+						  <div className="control">
+						    <input 
+								    className={ errors.image ? 'input is-danger animated flash faster' : 'input'}
+								    type="file"
+								    name="image"
+								    accept="image/*"
+									ref={register({
+										required: 'Attached a profile photo',
+									})}
+						    />
+						    <p className="help is-danger">{ errors.image && errors.image.message}</p>
 						  </div>
 						</div>
 

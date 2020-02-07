@@ -69,6 +69,8 @@ function App() {
 
             <Route path="/recent-detections" component={ hasRole('recent-detections') ? RecentDetections : AccessDenied} />
             <Route path="/watchlists" component={ hasRole('view-watchlists') ? Watchlists : AccessDenied} />
+
+
             <Route path="/live-monitoring" component={ hasRole('live-monitoring') ? LiveMonitoring : AccessDenied} />
 
 

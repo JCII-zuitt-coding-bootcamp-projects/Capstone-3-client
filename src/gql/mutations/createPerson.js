@@ -13,6 +13,7 @@ const createPerson = gql`
 		    $birthday : String
 		    $adminId : String
 		    $deletedAt : String
+		    $image : String
 
 
 			){
@@ -28,6 +29,7 @@ const createPerson = gql`
 					    birthday : $birthday
 					    adminId : $adminId
 					    deletedAt : $deletedAt
+					    image : $image
 			    
 			  
 						){
@@ -40,6 +42,7 @@ const createPerson = gql`
 						    nationality
 						    gender
 						    adminId
+						    image
 						    deletedAt
 						    createdAt
 						    updatedAt

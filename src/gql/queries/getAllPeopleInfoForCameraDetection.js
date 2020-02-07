@@ -10,6 +10,8 @@ const getAllPeopleInfoForCameraDetection = gql`
 	    address
 	    nationality
 	    gender
+	    image
+	    isWatched
 	    faces{
 	    	image
 	    }

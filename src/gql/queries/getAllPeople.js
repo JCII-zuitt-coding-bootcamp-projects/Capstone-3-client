@@ -7,6 +7,8 @@ const getAllPeople = gql`
 	    firstName
 	    middleName
 	    lastName
+	    image
+	    isWatched
 	    birthday
 	    address
 	    nationality

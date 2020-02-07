@@ -7,6 +7,7 @@ class MonitorCam extends Component{
 	constructor(props){
 		super(props)
 
+		document.title = 'Live detection...';
 	}
 
 	shouldComponentUpdate(nextProps, nextState){
@@ -34,6 +35,8 @@ class MonitorCam extends Component{
 		  		}}
 		  		id="videoCam"
 		  		// onPlay={ this.props.playHandler } // the playHandler will be called if all model is loaded
+
+		  		// style={{ opacity : '0.03'}}
 		  	/>
 
 			)

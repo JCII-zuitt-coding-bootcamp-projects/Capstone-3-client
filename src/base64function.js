@@ -12,7 +12,7 @@ const toBase64 = file =>
 	});
 
 const nodeServer = () => {
-	return "http://localhost:4000/";
+	return "https://nameless-shore-56025.herokuapp.com/"//http://localhost:4000/";
 };
 
 export { toBase64, nodeServer };

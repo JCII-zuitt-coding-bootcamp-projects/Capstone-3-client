@@ -32,7 +32,7 @@ import LiveMonitoring from './components/live/LiveMonitoring'
 
 
 const client = new ApolloClient({
-  uri : "http://localhost:4000/capstone3-gql" // this must be in the Env file or folder.....
+  uri : "https://nameless-shore-56025.herokuapp.com/capstone3-gql" //http://localhost:4000/capstone3-gql" // this must be in the Env file or folder.....
 })
 
 

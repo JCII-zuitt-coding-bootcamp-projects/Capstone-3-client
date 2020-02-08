@@ -21,11 +21,16 @@ class LiveMonitoring extends Component{
 	constructor(props){
 		super(props)
 
-		this.onPlayHandler = this.onPlayHandler.bind(this);
+		this.startFaceDetectionLoop = this.startFaceDetectionLoop.bind(this);
 
 		Swal.fire({
 			// icon: "error",
-			title: "Loading faces database...",
+			title: "Please wait",
+			html: `
+				Loading A.I. models...
+
+
+				`,
 			allowOutsideClick : false,
 			onBeforeOpen: () => {
 			    Swal.showLoading()
@@ -60,21 +65,38 @@ class LiveMonitoring extends Component{
 		}
 
 		if(this.state.modelsIsLoaded && this.state.peopleDb != null && !this.state.monitorOn){
-				this.onPlayHandler() // after getting peopleDB .... get now the images of the faces on onPlayHanlder
-				this.setState({ monitorOn : true })
 
+				this.canStartFaceDetection() // after getting peopleDB .... get now the images of the faces on onPlayHanlder
+				this.setState({ monitorOn : true })
 				// alert("monitoring will start")
-			}
+		}
 
 	}
 
 	async loadModels(){
+		
 		  await faceapi.nets.tinyFaceDetector.loadFromUri('/models')
 		  await faceapi.nets.faceExpressionNet.loadFromUri('/models')
 		  await faceapi.nets.faceLandmark68Net.loadFromUri('/models')
 		  await faceapi.nets.faceRecognitionNet.loadFromUri('/models')
 		  await faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
 
+
+		  Swal.fire({
+			// icon: "error",
+			title: "Please wait",
+			html: `
+				<i class="material-icons has-text-success">check</i> A.I. models loaded
+				<br>
+				Loading persons faces...
+
+
+				`,
+			allowOutsideClick : false,
+			onBeforeOpen: () => {
+			    Swal.showLoading()
+			  },
+		})
 
 		  // console.log(">====== MODELS is loading....")
 	}
@@ -139,17 +161,9 @@ class LiveMonitoring extends Component{
       	this.setState({ detections : newDetections});
 	}
 
-	async onPlayHandler(){
 
-		// return;
-
-
-		//cleaning when re calling onPlayHandler
-			clearInterval(this.state.interval);
-			if( document.querySelector("canvas") ){
-				document.querySelector("canvas").remove()
-			}
-
+	async canStartFaceDetection(){
+		
 
 		//--------------- | Loade labeled Images | ----------------------//
 		if(this.state.labeledFaceDescriptors == null){
@@ -157,8 +171,36 @@ class LiveMonitoring extends Component{
 			this.setState({labeledFaceDescriptors : newlabeledFaceDescriptors})
 		}
 
+
+		//the this.state.labeledFaceDescriptors will load depending on the faces images of registrered person
+		Swal.fire({
+			icon: "success",
+			title: "Everthing is loaded",
+			allowOutsideClick : true,
+			confirmButtonText : "Start Live Detection",
+			onClose: () =>{
+				this.startFaceDetectionLoop()
+			}
+		})
+
+	}
+
+
+	async startFaceDetectionLoop(){
+		// return;
+
+
+		//cleaning when re calling startFaceDetectionLoop // for resize function only
+			// clearInterval(this.state.interval);
+			// if( document.querySelector("canvas") ){
+			// 	document.querySelector("canvas").remove()
+			// }
+
+
 		
-		Swal.close() //close the loading modal if all models loaded
+
+		
+		
 
 
 					// For FUTURE optimation for fast loading of model caching in localstorage...
@@ -282,7 +324,9 @@ class LiveMonitoring extends Component{
 			  		}, 50)
 
 		  // }) //Timer setState closing 
-	}
+	} // startFaceDetectionLoop closing
+
+
 
 	componentDidMount(){
 		this.loadModels().then(() => {
@@ -295,7 +339,7 @@ class LiveMonitoring extends Component{
 
 		// window.addEventListener('resize', e =>{
 		// 	console.log("resized!")
-		// 	this.onPlayHandler() //to resized the canvas
+		// 	this.startFaceDetectionLoop() //to resized the canvas
 		// 	// let cam = document.getElementById('videoCam');
 		// 	// console.log(cam.offsetWidth , cam.offsetHeight)
 		// });
@@ -308,6 +352,8 @@ class LiveMonitoring extends Component{
 
 	render(){
 
+		// alert("RENDER func!!")
+
 		// alert('monmon called!')
 
 		return (
@@ -319,7 +365,7 @@ class LiveMonitoring extends Component{
 				  	<div id="cameraDiv">
 				  		<MonitorCam 
 					  		cameraIsLoaded={this.state.cameraIsLoaded}
-					  		playHandler={this.onPlayHandler}
+					  		playHandler={this.startFaceDetectionLoop}
 				  		/>
 				  	</div>
 

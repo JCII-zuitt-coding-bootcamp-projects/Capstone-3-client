@@ -28,11 +28,11 @@ import Watchlists from './components/monitor/Watchlists'
 import LiveMonitoring from './components/live/LiveMonitoring'
 
 
-
+import keys from './config/keys'
 
 
 const client = new ApolloClient({
-  uri : "https://nameless-shore-56025.herokuapp.com/capstone3-gql" //http://localhost:4000/capstone3-gql" // this must be in the Env file or folder.....
+  uri : keys.apolloClientURI
 })
 
 

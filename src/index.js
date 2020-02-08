@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Monitor from './Monitor/Monitor';
+// import Monitor from './Monitor/Monitor'; //_liveCamDetectionStart OLD ang pangalan
 import * as serviceWorker from './serviceWorker';
 
 

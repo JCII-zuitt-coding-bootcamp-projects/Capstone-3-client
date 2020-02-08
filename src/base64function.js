@@ -1,3 +1,6 @@
+import keys from './config/keys'
+
+
 const toBase64 = file =>
 	new Promise((resolve, reject) => {
 		// FileReader object allows web apps to read the contents of Blob or File type objects
@@ -12,7 +15,7 @@ const toBase64 = file =>
 	});
 
 const nodeServer = () => {
-	return "https://nameless-shore-56025.herokuapp.com/"//http://localhost:4000/";
+	return keys.imagesServer;
 };
 
 export { toBase64, nodeServer };

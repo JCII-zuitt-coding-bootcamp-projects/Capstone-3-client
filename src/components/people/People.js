@@ -74,10 +74,8 @@ const People = (props) =>{
 				variables : data,
 				refetchQueries : [{query : getAllPeople }]
 			}).then( data =>{
-				// props.history.goBack();
-				// // Swal.close()
+
 				console.log('bbbb' , data)
-				// alert("nag update!!!!!!!!!!!!")
 
 				let newPeople = [...people]
 				newPeople[index].isWatched = isWatched;
@@ -85,6 +83,8 @@ const People = (props) =>{
 				setPeople(newPeople);
 			})
 	}
+
+
 
 
 
@@ -104,12 +104,13 @@ const People = (props) =>{
 		  				<thead>
 						    <tr>
 						      <th >Photo</th>
-						      <th><i className="material-icons">flag</i></th>
+						      <th>Country</th>
 						      <th>First name</th>
 						      <th>Last name</th>
 						      <th>Gender</th>
-						      <th colSpan="1" className="has-text-centered">- Actions -</th>
-						      <th className="has-text-centered">Status</th>
+						      <th className="has-text-centered">- Update -</th>
+						      <th className="has-text-centered">- Watchlist -</th>
+						      <th className="has-text-centered">Delete</th>
 						    </tr>
 						  </thead>
 						  <tbody>

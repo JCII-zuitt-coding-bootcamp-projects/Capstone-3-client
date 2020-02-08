@@ -21,6 +21,8 @@ import AccessDenied from './components/AccessDenied'
 import Admins from './components/admin/Admins'
 import CreateAdmin from './components/admin/CreateAdmin'
   import AddPerson from './components/people/AddPerson'
+  import UpdatePerson from './components/people/UpdatePerson'
+  
   import People from './components/people/People'
 import RecentDetections from './components/monitor/RecentDetections'
 import Watchlists from './components/monitor/Watchlists'
@@ -66,6 +68,8 @@ function App() {
 
             <Route exact path="/people" component={ hasRole('view-people') ? People : AccessDenied} />
             <Route path="/people/add" component={ hasRole('add-person') ? AddPerson : AccessDenied} />
+
+            <Route path="/people/update/:id" component={UpdatePerson} />
 
             <Route path="/recent-detections" component={ hasRole('recent-detections') ? RecentDetections : AccessDenied} />
             <Route path="/watchlists" component={ hasRole('view-watchlists') ? Watchlists : AccessDenied} />

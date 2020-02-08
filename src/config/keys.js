@@ -23,7 +23,7 @@ module.exports = {
 
 	/*Production - Presentation */
 	
-	apolloClientURI : 'https://nameless-shore-56025.herokuapp.com/capstone3-gql', 
+	apolloClientURI : 'http://localhost:4000/capstone3-gql', 
 	imagesServer : 'http://localhost:4000/'
 
 }

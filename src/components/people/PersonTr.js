@@ -1,5 +1,6 @@
 import React from 'react'
 import { findFlagUrlByCountryName } from "country-flags-svg";
+import { Link } from 'react-router-dom'
 
 import { nodeServer } from "../../base64function.js"
 
@@ -26,19 +27,22 @@ const PersonTr = (props) =>{
 					  		</td>
 
 					  		<td>{ person.firstName }</td>
-					  		<td>{ person.middleName }</td>
+					  		<td>{ person.lastName }</td>
 					  		<td>{ person.gender }</td>
+
+					  		<td>
+					  			<Link to={"/people/update/" + person.id }>
+									<button className="button is-success is-outlined is-fullwidth">
+						  				<i className="material-icons">edit</i>
+						  				Profile
+						  			</button>
+								</Link>
+					  		</td>
+
 					  		{
 					  			/*
 									
-									<td>
-							  			<button className="button is-success is-outlined is-fullwidth"
-							  					onClick={ e => props.setEditProfileisActive(true) }
-							  			>
-							  				<i className="material-icons">edit</i>
-							  				Profile
-							  			</button>
-							  		</td>
+									
 							  		<td>
 							  			<button className="button is-primary is-outlined is-fullwidth">
 							  				<i className="material-icons">face</i>
@@ -59,20 +63,20 @@ const PersonTr = (props) =>{
 					  		{
 					  			person.isWatched ?
 					  			<td>
-						  			<button className="button is-success is-outlined is-fullwidth"
+						  			<button className="button is-danger is-outlined is-fullwidth"
 						  			 onClick={ e=> props.toggleWatchList(person.id , false , i) }
 						  			>
 						  				<i className="material-icons">remove</i>
-						  				Remove from watchlist
+						  				Remove <i className="material-icons has-text-danger" >remove_red_eye</i>
 						  			</button>
 								</td>
 								:
 								<td>
-						  			<button className="button is-danger is-outlined is-fullwidth"
+						  			<button className="button is-success is-outlined is-fullwidth"
 						  			 onClick={ e=> props.toggleWatchList(person.id , true , i) }
 						  			>
 						  				<i className="material-icons">add</i>
-						  				Add to watchlist
+						  				Add
 						  			</button>
 								</td>
 
@@ -81,16 +85,12 @@ const PersonTr = (props) =>{
 					  		}
 					  		
 
-					  		{
-					  			person.isWatched ?
-								<td className="has-text-centered has-text-danger">
-						  			<i className="material-icons" >remove_red_eye</i>
-						  		</td>
-						  		:
-					  			<td className="has-text-centered has-text-success">
-						  			<i className="material-icons" >remove_red_eye</i>
-						  		</td>
-							}
+							<td>
+					  			<button className="button is-danger is-outlined is-fullwidth">
+					  				<i className="material-icons">delete</i>
+					  				Delete
+					  			</button>
+					  		</td>
 					  		
 
 					  	</tr>

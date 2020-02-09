@@ -1,4 +1,4 @@
-import React , { Component } from 'react'
+import React , { Component , createRef} from 'react'
 import { Container , Heading ,  } from 'react-bulma-components';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './Monitor.css';
@@ -255,7 +255,7 @@ class LiveMonitoring extends Component{
 
 					    const resizedDetections = faceapi.resizeResults(detections, displaySize)
 
-
+					    // console.log("resizedDetections" , resizedDetections)
 
 					    // -- for showing face detail...
 					    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
@@ -266,6 +266,8 @@ class LiveMonitoring extends Component{
 
 					    //looping of the detected
 					    const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
+
+
 					    results.forEach((result, i) => {
 					      const box = resizedDetections[i].detection.box
 
@@ -299,7 +301,11 @@ class LiveMonitoring extends Component{
 							      	let newDetections = [...this.state.detections];
 							      	console.log('zzzzzzz' , newDetections)
 							      	
-							      	newDetections.unshift({ key : key , person : this.state.peopleDb[result.label]})
+							      	newDetections.unshift({
+							      		key : key ,
+							      		person : this.state.peopleDb[result.label],
+							      		detectionImage : this.capture()
+							      	})
 
 
 							      	setTimeout(()=>{
@@ -346,8 +352,26 @@ class LiveMonitoring extends Component{
 	}
 
 
+	webcamRef = createRef(null)
 
+	// capture = React.useCallback(
+	//     () => {
+	//       const imageSrc = this.webcamRef.current.getScreenshot();
 
+	//       alert(imageSrc)
+	//     },
+	//     [this.webcamRef]
+	// );
+
+	capture(){
+		const imageSrc = this.webcamRef.current.getScreenshot();
+
+		// console.log
+	    // alert(imageSrc)
+	    return imageSrc;
+
+	      // alert("imageSrc")
+	}
 
 
 	render(){
@@ -356,16 +380,23 @@ class LiveMonitoring extends Component{
 
 		// alert('monmon called!')
 
+		
+
 		return (
 			<div>
 	          	<div className="columns">
 				  <div className="column is-8">
 
 
-				  	<div id="cameraDiv">
+				  	<div id="cameraDiv"
+				  			onClick={ e => {
+					  			// this.capture()
+					  		}}
+				  	>
 				  		<MonitorCam 
 					  		cameraIsLoaded={this.state.cameraIsLoaded}
 					  		playHandler={this.startFaceDetectionLoop}
+					  		webcamRef={this.webcamRef}
 				  		/>
 				  	</div>
 

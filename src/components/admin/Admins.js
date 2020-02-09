@@ -109,7 +109,7 @@ const Admins = (props) =>{
 
 						  		admins.map( (admin , i) =>{
 						  			return <tr key={i} >
-										  		<th>1</th>
+										  		<th>{i+1}</th>
 										  		<td>{ admin.username }</td>
 										  		<td>{ admin.email }</td>
 										  		<td >

@@ -26,9 +26,7 @@ class MonitorCam extends Component{
 		  		width="100%"
 				height="100%"
 		  		screenshotQuality={1}
-		  		// onClick={ e => {
-		  		// 	alert("ZZs")
-		  		// }}
+		  		ref={this.props.webcamRef}
 
 		  		onUserMedia={ () =>{
 		  			console.log("onUserMedia received a stream!")

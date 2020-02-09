@@ -45,19 +45,15 @@ class DetectionSide extends Component{
 									    <div className="columns ">
 									    	<div className="column">
 									    		<center>
-									    			<figure className="image is-128x128">
-													  <img className="" src={nodeServer() + person.image } />
-													</figure>
+									    			
+													  <img className="" src={nodeServer() + person.image }  style={{ height : '120px'}}/>
+													
 									    		</center>
 									    	</div>
 									    	<div className="column">
-									    		{
-									    			/*
-														<figure className="image is-128x128">
-														  <img className="" src="https://bulma.io/images/placeholders/128x128.png"/>
-														</figure>
-									    			*/
-									    		}
+
+												  <img className="" src={detection.detectionImage} style={{ height : '120px'}}/>
+												
 
 									    	</div>
 									    </div>

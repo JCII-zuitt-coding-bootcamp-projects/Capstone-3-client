@@ -279,7 +279,7 @@ const UpdatePerson = (props) =>{
 
 						<div className="control">
 							<center>
-								<button className="button is-rounded has-text-link">&nbsp;&nbsp;Add Person&nbsp;&nbsp;</button>
+								<button className="button is-rounded has-text-link">&nbsp;&nbsp;Update profile &nbsp;&nbsp;</button>
 							</center>
 						</div>
 					</form>

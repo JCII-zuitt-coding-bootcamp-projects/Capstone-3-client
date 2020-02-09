@@ -2,6 +2,9 @@ import React from 'react'
 import { findFlagUrlByCountryName } from "country-flags-svg";
 import { Link } from 'react-router-dom'
 
+import Swal from 'sweetalert2'
+
+
 import { nodeServer } from "../../base64function.js"
 
 
@@ -86,7 +89,32 @@ const PersonTr = (props) =>{
 					  		
 
 							<td>
-					  			<button className="button is-danger is-outlined is-fullwidth">
+					  			<button className="button is-danger is-outlined is-fullwidth"
+					  					onClick={e =>{
+
+					  						Swal.fire({
+											  title: 'Delete account ?',
+											  text: `${person.firstName} ${person.lastName}`,
+											  icon: 'warning',
+											  showCancelButton: true,
+											  confirmButtonColor: '#d33',
+											  cancelButtonColor: '#3085d6',
+											  confirmButtonText: 'Delete now'
+											}).then((result) => {
+
+											   if (result.value) { // confirmed
+
+													props.deletePeople(person.id , i);
+
+												}
+
+
+											})
+
+
+					  					}}
+
+					  			>
 					  				<i className="material-icons">delete</i>
 					  				Delete
 					  			</button>

@@ -13,6 +13,9 @@ import { graphql } from "react-apollo"
 import Swal from 'sweetalert2'
 
 import { getAdmins } from "../../gql/queriesFacade";
+import { deleteAdmin } from "../../gql/mutationsFacade";
+
+import { flowRight as compose } from 'lodash'
 
 
 const Admins = (props) =>{
@@ -53,6 +56,33 @@ const Admins = (props) =>{
 	}
 
 
+	const deleteAdminAccount = (id , index ) => {
+
+		// alert(id)
+		// alert(index)
+		props.deleteAdmin({
+			variables : { id : id },
+			// refetchQueries : [{query : getAllPeople }]
+
+		}).then( data =>{
+
+			let newAdmins = [...admins]
+			newAdmins.splice(index , 1)
+			console.log("new peps" , newAdmins)
+			setAdmins(newAdmins);
+
+			Swal.fire({
+			  position: 'top-end',
+			  icon: 'success',
+			  title: 'Deleted successfully',
+			  showConfirmButton: false,
+			  timer: 1500
+			})
+		})
+
+	} //deletePeople End
+
+
 	return (
 			<div className="card has-background-black" style={{ width : '800px' , margin : '40px auto' ,}} >
 			  <header className="card-header">
@@ -82,18 +112,55 @@ const Admins = (props) =>{
 										  		<th>1</th>
 										  		<td>{ admin.username }</td>
 										  		<td>{ admin.email }</td>
-										  		<td>
-										  			<Link to={"/admin/update/" + admin.id }>
-														<button className="button is-success is-outlined is-fullwidth">
-											  				<i className="material-icons">edit</i>
-											  				Profile
-											  			</button>
-													</Link>
+										  		<td >
+										  			{
+										  				admin.superAdmin ?
+										  				null :
+										  				<Link to={"/admin/update/" + admin.id }>
+															<button className="button is-success is-outlined is-fullwidth">
+												  				<i className="material-icons">edit</i>
+												  				Profile
+												  			</button>
+														</Link>
+										  			}
+										  			
 										  		</td>
 										  		<td>
-										  			<button className="button is-danger is-outlined is-fullwidth">
-										  				<i className="material-icons">delete</i>
-										  			</button>
+
+										  			{
+										  				admin.superAdmin ?
+										  				null :
+														<button className="button is-danger is-outlined is-fullwidth"
+
+											  					onClick={e =>{
+
+											  						Swal.fire({
+																	  title: 'Delete Admin account ?',
+																	  text: `${admin.username}`,
+																	  icon: 'warning',
+																	  showCancelButton: true,
+																	  confirmButtonColor: '#d33',
+																	  cancelButtonColor: '#3085d6',
+																	  confirmButtonText: 'Delete now'
+																	}).then((result) => {
+
+																	   if (result.value) { // confirmed
+
+																			deleteAdminAccount(admin.id , i);
+
+																		}
+
+
+																	})
+
+
+											  					}}
+
+											  			>
+											  				<i className="material-icons">delete_forever</i>
+											  			</button>
+													}
+										  			
 										  		</td>
 
 										  	</tr>
@@ -124,4 +191,11 @@ const Admins = (props) =>{
 
 // export default Admins;
 
-export default graphql(getAdmins)(Admins) // for 1 graphql quiries/mutation
+// export default graphql(getAdmins)(Admins) // for 1 graphql quiries/mutation
+
+
+export default compose(
+		graphql(getAdmins),
+		graphql(deleteAdmin , { name : 'deleteAdmin' }),
+
+	)(Admins);

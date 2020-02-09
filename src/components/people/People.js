@@ -11,6 +11,7 @@ import Swal from 'sweetalert2'
 
 
 import { toggleWatchlist } from "../../gql/mutationsFacade";
+import { deletePerson } from "../../gql/mutationsFacade";
 
 
 
@@ -51,6 +52,7 @@ const People = (props) =>{
 
 
 	console.log(props)
+
 	const toggleWatchList = (id,isWatched , index) => {
 		
 		Swal.fire({
@@ -72,7 +74,7 @@ const People = (props) =>{
 
 			props.toggleWatchlist({
 				variables : data,
-				refetchQueries : [{query : getAllPeople }]
+				// refetchQueries : [{query : getAllPeople }]
 			}).then( data =>{
 
 				console.log('bbbb' , data)
@@ -81,10 +83,44 @@ const People = (props) =>{
 				newPeople[index].isWatched = isWatched;
 
 				setPeople(newPeople);
+
+				Swal.fire({
+				  position: 'top-end',
+				  icon: isWatched ? 'success' : 'info',
+				  title: isWatched ? "Added to watchlist " : 'Removed from watchlist.',
+				  showConfirmButton: false,
+				  timer: 1500
+				})
 			})
-	}
+	} //toggleWatchList END
 
 
+
+	const deletePeople = (id , index ) => {
+
+		props.deletePerson({
+			variables : { id : id },
+			// refetchQueries : [{query : getAllPeople }]
+
+		}).then( data =>{
+
+			// console.log('bbbb' , data)
+
+			let newPeople = [...people]
+			newPeople.splice(index , 1)
+			console.log("new peps" , newPeople)
+			setPeople(newPeople);
+
+			Swal.fire({
+			  position: 'top-end',
+			  icon: 'success',
+			  title: 'Deleted successfully',
+			  showConfirmButton: false,
+			  timer: 1500
+			})
+		})
+
+	} //deletePeople End
 
 
 
@@ -119,6 +155,7 @@ const People = (props) =>{
 						  			people={people}
 						  			setEditProfileisActive={setEditProfileisActive}
 						  			toggleWatchList={toggleWatchList}
+						  			deletePeople={deletePeople}
 
 						  	/>
 
@@ -144,10 +181,8 @@ const People = (props) =>{
 export default compose(
 
 		graphql(getAllPeople), //for selection of team options //, { name : "getAllPeople" } 
-		graphql(toggleWatchlist , { name : 'toggleWatchlist' })
+		graphql(toggleWatchlist , { name : 'toggleWatchlist' }),
+		graphql(deletePerson , { name : 'deletePerson' })
+
 
 		)(People);
-
-
-// graphql(getTeamsQuery , { name : "getTeamsQuery" }), //for selection of team options
-// 		graphql(updateMemberMutation , { name : "updateMember" })

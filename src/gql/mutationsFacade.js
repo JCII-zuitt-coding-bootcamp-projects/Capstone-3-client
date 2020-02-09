@@ -8,6 +8,10 @@ import toggleWatchlist from './mutations/toggleWatchlist'
 import updatePerson from './mutations/updatePerson'
 import updateAdmin from './mutations/updateAdmin'
 
+import deletePerson from './mutations/deletePerson'
+import deleteAdmin from './mutations/deleteAdmin'
+
+
 
 export {
 		createPerson , 
@@ -16,4 +20,6 @@ export {
 		toggleWatchlist,
 		updatePerson,
 		updateAdmin,
+		deletePerson,
+		deleteAdmin,
 	};

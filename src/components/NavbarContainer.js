@@ -69,14 +69,16 @@ const NavbarContainer = (props)=> {
 			        						        		}}
 			        					        		/>*/}
 
-			        		<Link to="/live-monitoring" >
+
 			        			<i	
 			        				className="material-icons" 
 			        				id="eye"
-			        				style={{ fontSize : '3.4rem' , color: 'black' , textShadow : '#b7a6a6 4px 4px 7px'}}
-
+			        				style={{ fontSize : '3.4rem' , color: 'black' , textShadow : '#b7a6a6 4px 4px 7px' , cursor : 'pointer'}}
+			        				onClick={ e => {
+										window.location.href = '/live-monitoring'
+			        				}}
 			        			>remove_red_eye</i>
-			        		</Link>
+
 						  	
 
 			        	</div>

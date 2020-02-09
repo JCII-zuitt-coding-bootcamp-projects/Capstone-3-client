@@ -36,7 +36,7 @@ const NavbarContainer = (props)=> {
 
 		      </Columns.Column>
 
-		      <Columns.Column size={3}>
+		      <Columns.Column size={2}>
 			        <Heading 
 			        		size={5}
 			        		className="has-text-black has-background-light has-text-centered"
@@ -70,7 +70,12 @@ const NavbarContainer = (props)=> {
 			        					        		/>*/}
 
 			        		<Link to="/live-monitoring" >
-			        			<i className="material-icons  "  id="eye" style={{ fontSize : '3.4rem' , color: 'black'}}>remove_red_eye</i>
+			        			<i	
+			        				className="material-icons" 
+			        				id="eye"
+			        				style={{ fontSize : '3.4rem' , color: 'black' , textShadow : '#b7a6a6 4px 4px 7px'}}
+
+			        			>remove_red_eye</i>
 			        		</Link>
 						  	
 

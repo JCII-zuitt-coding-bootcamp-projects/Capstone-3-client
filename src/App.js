@@ -20,6 +20,9 @@ import AccessDenied from './components/AccessDenied'
 
 import Admins from './components/admin/Admins'
 import CreateAdmin from './components/admin/CreateAdmin'
+import UpdateAdmin from './components/admin/UpdateAdmin'
+
+
   import AddPerson from './components/people/AddPerson'
   import UpdatePerson from './components/people/UpdatePerson'
   
@@ -65,6 +68,8 @@ function App() {
 
             <Route exact path="/admins" component={ hasRole('view-admins') ? Admins : AccessDenied} />
             <Route path="/admins/create" component={ hasRole('add-admin') ? CreateAdmin : AccessDenied} />
+            <Route path="/admin/update/:id" component={UpdateAdmin} />
+
 
             <Route exact path="/people" component={ hasRole('view-people') ? People : AccessDenied} />
             <Route path="/people/add" component={ hasRole('add-person') ? AddPerson : AccessDenied} />

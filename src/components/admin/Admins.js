@@ -1,11 +1,12 @@
 import React , { useEffect , useState } from 'react'
 import { Container} from 'react-bulma-components';
+import { Link } from 'react-router-dom'
 
 
 //modals
-import UpdateProfile from './modals/UpdateProfile'
-import UpdateRoles from './modals/UpdateRoles'
-import UpdatePassword from './modals/UpdatePassword'
+// import UpdateProfile from './modals/UpdateProfile'
+// import UpdateRoles from './modals/UpdateRoles'
+// import UpdatePassword from './modals/UpdatePassword'
 
 import { graphql } from "react-apollo"
 
@@ -22,9 +23,9 @@ const Admins = (props) =>{
 	}, [])
 
 	//modal active status
-	const [editProfileisActive,setEditProfileisActive] = useState(false)
-	const [editRoleisActive,setEditRoleisActive] = useState(false)
-	const [editPasswordisActive,setEditPasswordisActive] = useState(false)
+	// const [editProfileisActive,setEditProfileisActive] = useState(false)
+	// const [editRoleisActive,setEditRoleisActive] = useState(false)
+	// const [editPasswordisActive,setEditPasswordisActive] = useState(false)
 
 	const [admins,setAdmins] = useState(null) // array of people
 	const [isAdminFetched,setIsAdminFetched] = useState(false) // used for refetching
@@ -68,7 +69,7 @@ const Admins = (props) =>{
 						      <th>#</th>
 						      <th>Username</th>
 						      <th>Email</th>
-						      <th colSpan="3" className="has-text-centered">- Update -</th>
+						      <th colSpan="2" className="has-text-centered">- Action -</th>
 						    </tr>
 						  </thead>
 						  <tbody>
@@ -82,27 +83,16 @@ const Admins = (props) =>{
 										  		<td>{ admin.username }</td>
 										  		<td>{ admin.email }</td>
 										  		<td>
-										  			<button className="button is-success is-outlined is-fullwidth"
-										  					onClick={ e => setEditProfileisActive(true) }
-										  			>
-										  				<i className="material-icons">edit</i>
-										  				Profile
-										  			</button>
+										  			<Link to={"/admin/update/" + admin.id }>
+														<button className="button is-success is-outlined is-fullwidth">
+											  				<i className="material-icons">edit</i>
+											  				Profile
+											  			</button>
+													</Link>
 										  		</td>
 										  		<td>
-										  			<button className="button is-danger is-outlined is-fullwidth"
-										  					onClick={ e => setEditRoleisActive(true) }
-										  			>
-										  				<i className="material-icons">edit</i>
-										  				Roles
-										  			</button>
-										  		</td>
-										  		<td>
-										  			<button className="button is-link is-outlined is-fullwidth"
-										  					onClick={ e => setEditPasswordisActive(true) }
-										  			>
-										  				<i className="material-icons">edit</i>
-										  				Password
+										  			<button className="button is-danger is-outlined is-fullwidth">
+										  				<i className="material-icons">delete</i>
 										  			</button>
 										  		</td>
 
@@ -119,9 +109,13 @@ const Admins = (props) =>{
 			  </div>
 
 			{/*Modals here for editing*/}
-			<UpdateProfile isActive={editProfileisActive} setIsActive={setEditProfileisActive}/>
-			<UpdateRoles isActive={editRoleisActive} setIsActive={setEditRoleisActive}/>
-			<UpdatePassword isActive={editPasswordisActive} setIsActive={setEditPasswordisActive}/>
+			{
+				/*
+					<UpdateProfile isActive={editProfileisActive} setIsActive={setEditProfileisActive}/>
+					<UpdateRoles isActive={editRoleisActive} setIsActive={setEditRoleisActive}/>
+					<UpdatePassword isActive={editPasswordisActive} setIsActive={setEditPasswordisActive}/>
+				*/
+			}
 
 			</div>
 		)

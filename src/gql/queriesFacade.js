@@ -4,7 +4,8 @@
 import getAllPeople from './queries/getAllPeople'
 import getPerson from './queries/getPerson'
 import getAllPeopleInfoForCameraDetection from './queries/getAllPeopleInfoForCameraDetection' // for camera
-import getAdmins from './queries/getAdmins' // for camera
+import getAdmins from './queries/getAdmins'
+import getAdmin from './queries/getAdmin'
 
 
 
@@ -13,4 +14,5 @@ export {
 		getPerson,
 		getAllPeopleInfoForCameraDetection,
 		getAdmins,
+		getAdmin
 	};

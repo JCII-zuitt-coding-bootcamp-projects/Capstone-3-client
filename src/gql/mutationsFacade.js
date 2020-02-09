@@ -6,6 +6,7 @@ import loginAdmin from './mutations/loginAdmin'
 import createAdmin from './mutations/createAdmin'
 import toggleWatchlist from './mutations/toggleWatchlist'
 import updatePerson from './mutations/updatePerson'
+import updateAdmin from './mutations/updateAdmin'
 
 
 export {
@@ -13,5 +14,6 @@ export {
 		loginAdmin ,
 		createAdmin,
 		toggleWatchlist,
-		updatePerson
+		updatePerson,
+		updateAdmin,
 	};

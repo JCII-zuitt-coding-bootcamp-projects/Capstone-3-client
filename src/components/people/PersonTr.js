@@ -67,7 +67,7 @@ const PersonTr = (props) =>{
 						  			 onClick={ e=> props.toggleWatchList(person.id , false , i) }
 						  			>
 						  				<i className="material-icons">remove</i>
-						  				Remove <i className="material-icons has-text-danger" >remove_red_eye</i>
+						  				Remove &nbsp;&nbsp; <i className="material-icons has-text-danger animated bounceIn infinite" >remove_red_eye</i>
 						  			</button>
 								</td>
 								:

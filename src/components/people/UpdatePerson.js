@@ -125,6 +125,7 @@ const UpdatePerson = (props) =>{
 	useEffect(() => {
 		// console.log(props)
 	    document.title = 'Update Person';
+	    setPerson(null)
 	    // console.log(errors)
 	    // console.log(countries)
 

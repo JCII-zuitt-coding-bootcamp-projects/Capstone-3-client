@@ -17,13 +17,13 @@ module.exports = {
 
 	// /*DEVELOPMENT*/
 	
-	// apolloClientURI : 'https://nameless-shore-56025.herokuapp.com/capstone3-gql', 
-	// imagesServer : 'https://nameless-shore-56025.herokuapp.com/',
+	apolloClientURI : 'https://nameless-shore-56025.herokuapp.com/capstone3-gql', 
+	imagesServer : 'https://nameless-shore-56025.herokuapp.com/',
 
 
 	/*Production - Presentation */
 	
-	apolloClientURI : 'http://localhost:4000/capstone3-gql', 
-	imagesServer : 'http://localhost:4000/'
+	// apolloClientURI : 'http://localhost:4000/capstone3-gql', 
+	// imagesServer : 'http://localhost:4000/'
 
 }

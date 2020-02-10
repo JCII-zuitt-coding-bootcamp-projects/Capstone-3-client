@@ -68,7 +68,7 @@ const Login = (props)=> {
 	}; //onSubmitForm Closing
 
 	return (
-		<div className="card has-background-black" style={{ width : '500px' , margin : '40px auto' ,}} >
+		<div className="card has-background-black animated pulse faster" style={{ width : '500px' , margin : '40px auto' ,}} >
 		  <header className="card-header">
 		    <p className="card-header-title has-text-white is-centered">
 		      Authentication

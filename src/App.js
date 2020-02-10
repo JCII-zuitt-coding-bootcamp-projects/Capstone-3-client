@@ -16,6 +16,7 @@ import Landing from './components/Landing'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import AccessDenied from './components/AccessDenied'
+import ForMobileOnly from './components/ForMobileOnly'
 
 
 import Admins from './components/admin/Admins'
@@ -31,6 +32,13 @@ import RecentDetections from './components/monitor/RecentDetections'
 import Watchlists from './components/monitor/Watchlists'
 
 import LiveMonitoring from './components/live/LiveMonitoring'
+
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 
 
 import keys from './config/keys'
@@ -57,38 +65,52 @@ function App() {
   }
 
   return (
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Container >
-          <NavbarContainer  auth={auth} />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route path="/login" component={Login} />
-            <Route path="/Logout" component={Logout} />
+    <div>
+    <BrowserView>
+    
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <Container >
+            <NavbarContainer  auth={auth} />
+            <Switch>
+              
+                  <Route exact path="/" component={Landing} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/Logout" component={Logout} />
 
-            <Route exact path="/admins" component={ hasRole('view-admins') ? Admins : AccessDenied} />
-            <Route path="/admins/create" component={ hasRole('add-admin') ? CreateAdmin : AccessDenied} />
-            <Route path="/admin/update/:id" component={UpdateAdmin} />
-
-
-            <Route exact path="/people" component={ hasRole('view-people') ? People : AccessDenied} />
-            <Route path="/people/add" component={ hasRole('add-person') ? AddPerson : AccessDenied} />
-
-            <Route path="/people/update/:id" component={UpdatePerson} />
-
-            <Route path="/recent-detections" component={ hasRole('recent-detections') ? RecentDetections : AccessDenied} />
-            <Route path="/watchlists" component={ hasRole('view-watchlists') ? Watchlists : AccessDenied} />
+                  <Route exact path="/admins" component={ hasRole('view-admins') ? Admins : AccessDenied} />
+                  <Route path="/admins/create" component={ hasRole('add-admin') ? CreateAdmin : AccessDenied} />
+                  <Route path="/admin/update/:id" component={UpdateAdmin} />
 
 
-            <Route path="/live-monitoring" component={ hasRole('live-monitoring') ? LiveMonitoring : AccessDenied} />
+                  <Route exact path="/people" component={ hasRole('view-people') ? People : AccessDenied} />
+                  <Route path="/people/add" component={ hasRole('add-person') ? AddPerson : AccessDenied} />
+
+                  <Route path="/people/update/:id" component={UpdatePerson} />
+
+                  <Route path="/recent-detections" component={ hasRole('recent-detections') ? RecentDetections : AccessDenied} />
+                  <Route path="/watchlists" component={ hasRole('view-watchlists') ? Watchlists : AccessDenied} />
 
 
-            {/*<Route path="/member/update/:id" component={UpdateMember} />*/}
-          </Switch>
+                  <Route path="/live-monitoring" component={ hasRole('live-monitoring') ? LiveMonitoring : AccessDenied} />
+              
 
-        </Container>
-      </BrowserRouter>
-    </ApolloProvider>
+
+              {/*<Route path="/member/update/:id" component={UpdateMember} />*/}
+            </Switch>
+
+          </Container>
+        </BrowserRouter>
+      </ApolloProvider>
+      
+    </BrowserView>
+
+    <MobileView>
+      <ForMobileOnly/>
+    </MobileView>
+
+    </div>
+
   );
 }
 

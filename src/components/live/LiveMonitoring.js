@@ -11,7 +11,7 @@ import { getAllPeopleInfoForCameraDetection } from "../../gql/queriesFacade";
 import { nodeServer } from "../../base64function.js"
 
 import Swal from 'sweetalert2'
-
+import {Howl, Howler} from 'howler';
 
 import * as faceapi from 'face-api.js';
 
@@ -50,6 +50,16 @@ class LiveMonitoring extends Component{
 		],
 
 		peopleDb : null,
+
+
+		//sound effects
+		detectedFx : new Howl({
+					  src: ['/assets/fx/recognized.mp3']
+					}),
+
+		warningFx : new Howl({
+					  src: ['/assets/fx/warning.mp3']
+					}),
 	}
 
 	// shouldComponentUpdate(nextProps, nextState){
@@ -175,7 +185,7 @@ class LiveMonitoring extends Component{
 		//the this.state.labeledFaceDescriptors will load depending on the faces images of registrered person
 		Swal.fire({
 			icon: "success",
-			title: "Everthing is loaded",
+			title: "EyeSecure is ready",
 			allowOutsideClick : true,
 			confirmButtonText : "Start Live Detection",
 			onClose: () =>{
@@ -287,6 +297,7 @@ class LiveMonitoring extends Component{
 					      }else{
 
 
+
 					      		document.getElementById("eye").style.color = this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" ;
 
 					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 15 , boxColor: this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" })
@@ -295,8 +306,16 @@ class LiveMonitoring extends Component{
 							    console.log('detected labeled' , result)
 
 							    let key = result.label //Math.random().toString(36).substring(7);
-					      		if( !this.isDetected(key) ){
+					      		if( !this.isDetected(key) ){ // check if already in the detected right side... to avoid multiple displaying... since its a loop
 					      			// console.log(result._label)
+
+
+					      			//play sound effects if detected or warning for watchlists
+					      			if(this.state.peopleDb[result.label].isWatched){
+						      			this.state.warningFx.play()
+						      		}else{
+						      			this.state.detectedFx.play()
+						      		}
 
 							      	let newDetections = [...this.state.detections];
 							      	console.log('zzzzzzz' , newDetections)

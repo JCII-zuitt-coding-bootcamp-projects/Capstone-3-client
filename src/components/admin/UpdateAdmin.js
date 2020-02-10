@@ -129,7 +129,7 @@ const UpdateAdmin = (props) =>{
 
 
 	return (
-			<div className="card has-background-black" style={{ width : '800px' , margin : '40px auto' ,}} >
+			<div className="card has-background-black " style={{ width : '800px' , margin : '40px auto' ,}} >
 			  <header className="card-header">
 			    <p className="card-header-title has-text-white is-centered">
 			      Update Admin Account

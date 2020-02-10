@@ -91,7 +91,7 @@ const NavbarContainer = (props)=> {
 			      		mainTitle="Monitor"
 			      		links={[
 			      			{ url : '/recent-detections' , title : 'Recent detections'},
-			      			{ url : '/watchlists' , title : 'View watchlists'},
+			      			// { url : '/watchlists' , title : 'View watchlists'},
 			      		]}
 			    />
 

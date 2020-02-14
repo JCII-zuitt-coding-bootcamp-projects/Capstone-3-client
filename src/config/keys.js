@@ -3,12 +3,12 @@ module.exports = {
 	/*
 	// 	backend Database , apollo client
 	// */
-	// apolloClientURI : 'https://nameless-shore-56025.herokuapp.com/capstone3-gql', 
+	// apolloClientURI : 'https://eyesecure-server.herokuapp.com/capstone3-gql', 
 
 	// /*
 	// 	For faces
 	// */
-	// imagesServer : 'https://nameless-shore-56025.herokuapp.com/',
+	// imagesServer : 'https://eyesecure-server.herokuapp.com/',
 
 
 
@@ -17,8 +17,8 @@ module.exports = {
 
 	// /*DEVELOPMENT*/
 	
-	apolloClientURI : 'https://nameless-shore-56025.herokuapp.com/capstone3-gql', 
-	imagesServer : 'https://nameless-shore-56025.herokuapp.com/',
+	apolloClientURI : 'https://eyesecure-server.herokuapp.com/capstone3-gql', 
+	imagesServer : 'https://eyesecure-server.herokuapp.com/',
 
 
 	/*Production - Presentation */

@@ -13,7 +13,7 @@ const Landing = (props)=> {
 			  		src="/assets/homepage.jpg"
 			  		style={{ height : '400px' , borderRadius : '20rem' , opacity : '0.8'}}
 			  />
-			 <h1 class="subtitle is-2 has-text-link">A.I. security for CCTV's</h1>
+			 <h1 className="subtitle is-2 has-text-link">A.I. security for CCTV's</h1>
 		  </center>
 		</div>
 

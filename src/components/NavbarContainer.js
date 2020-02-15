@@ -9,7 +9,7 @@ const NavbarContainer = (props)=> {
 
 	// alert()
 	return (
-		<nav className="navbar is-black is-fixed-top container" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem' , border : '0.1rem solid #103879'}}>
+		<nav className="navbar is-black is-fixed-top container" role="navigation" aria-label="main navigation" style={{ borderRadius: '0 0 3rem 3rem' , border : '0.1rem solid #103879' , zIndex : '1070'}}>
 
 		  <div id="navbarMenu" style={{ margin: '0 auto' , width: '950px' }}>
 		  	<Columns className="navbar-item" >

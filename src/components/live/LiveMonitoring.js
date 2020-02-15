@@ -117,25 +117,27 @@ class LiveMonitoring extends Component{
 
 		  return Promise.all(
 		    peopleDb.map(async (person , index) => {
-		      const descriptions = []
-		      for (let face of person.faces) {
+			      const descriptions = []
 
-			      	console.log(nodeServer() + face.image)
-			      	
-			        try{
-			        	const img = await faceapi.fetchImage(nodeServer() + face.image) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
-			        	const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-			        	descriptions.push(detections.descriptor)
-			        }catch(e){
-			        	console.log(e)
-			        	console.log("image not found... error on the image folder source!")
-			        }
-		        
-		      }
+			      //loop the images of a person......
+			      for (let face of person.faces) {
 
-		      if(descriptions.length > 0){ // dapay may atleast 1 image for the face
-		      	return new faceapi.LabeledFaceDescriptors(index.toString(), descriptions)
-		      }
+				      	console.log(nodeServer() + face.image)
+				      	
+				        try{
+				        	const img = await faceapi.fetchImage(nodeServer() + face.image) //https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/
+				        	const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+				        	descriptions.push(detections.descriptor)
+				        }catch(e){
+				        	console.log(e)
+				        	console.log("image not found... error on the image folder source!")
+				        }
+			        
+			      }
+
+			      if(descriptions.length > 0){ // dapay may atleast 1 image for the face
+			      	return new faceapi.LabeledFaceDescriptors(index.toString(), descriptions)
+			      }
 		      
 		    })
 		  )
@@ -236,8 +238,12 @@ class LiveMonitoring extends Component{
 		// localStorage.setItem("key", "value");
 
 
+		try{
+
 
 		const faceMatcher = new faceapi.FaceMatcher(this.state.labeledFaceDescriptors, 0.5)
+
+		
 		console.log("Labeled images loaded!!!!!")
 
 		console.log("Onplay hanlder-- start monitoring streams...")
@@ -289,8 +295,8 @@ class LiveMonitoring extends Component{
 
 					      		document.getElementById("eye").style.color = '#F7DC6F'
 
-							      const drawBox = new faceapi.draw.DrawBox(box, { label: 'Unknown' , lineWidth: 15 , boxColor: '#F7DC6F' })
-		drawBox.draw(canvas)
+							    const drawBox = new faceapi.draw.DrawBox(box, { label: 'Unknown' , lineWidth: 15 , boxColor: '#F7DC6F' })
+								drawBox.draw(canvas)
 							      
 							      console.log('detected labeled' , result)
 
@@ -301,7 +307,7 @@ class LiveMonitoring extends Component{
 					      		document.getElementById("eye").style.color = this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" ;
 
 					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 15 , boxColor: this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" })
-		drawBox.draw(canvas)
+								drawBox.draw(canvas)
 							      
 							    console.log('detected labeled' , result)
 
@@ -349,6 +355,22 @@ class LiveMonitoring extends Component{
 			  		}, 50)
 
 		  // }) //Timer setState closing 
+
+		}catch(err){
+			
+			Swal.fire({
+				icon: "error",
+				title: "Something went wrong",
+				html: `
+					Make sure every person's profile has a valid profile image.
+					`,
+				allowOutsideClick : false,
+				showConfirmButton: false
+			})
+
+			return ;
+		}
+
 	} // startFaceDetectionLoop closing
 
 

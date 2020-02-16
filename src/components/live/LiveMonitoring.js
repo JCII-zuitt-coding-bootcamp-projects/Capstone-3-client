@@ -15,6 +15,8 @@ import {Howl, Howler} from 'howler';
 
 import * as faceapi from 'face-api.js';
 
+import Jimp from 'jimp'
+
 
 class LiveMonitoring extends Component{
 
@@ -255,6 +257,7 @@ class LiveMonitoring extends Component{
 		// videoCam.style.height = 'inherit'
 		videoCam.height = videoCam.offsetHeight
 		videoCam.width = videoCam.offsetWidth
+
 		const canvas = faceapi.createCanvasFromMedia(videoCam)
 		  // document.body.append(canvas)
 		  document.getElementById('cameraDiv').appendChild(canvas);  
@@ -309,7 +312,7 @@ class LiveMonitoring extends Component{
 					      		const drawBox = new faceapi.draw.DrawBox(box, { label: this.state.peopleDb[result.label].firstName , lineWidth: 15 , boxColor: this.state.peopleDb[result.label].isWatched ? '#CB4335' : "#28B463" })
 								drawBox.draw(canvas)
 							      
-							    console.log('detected labeled' , result)
+							    // console.log('detected labeled' , result)
 
 							    let key = result.label //Math.random().toString(36).substring(7);
 					      		if( !this.isDetected(key) ){ // check if already in the detected right side... to avoid multiple displaying... since its a loop
@@ -324,25 +327,40 @@ class LiveMonitoring extends Component{
 						      		}
 
 							      	let newDetections = [...this.state.detections];
-							      	console.log('zzzzzzz' , newDetections)
+							      	// console.log('detczzzzzzz' , newDetections)
 							      	
-							      	newDetections.unshift({
-							      		key : key ,
-							      		person : this.state.peopleDb[result.label],
-							      		detectionImage : this.capture()
-							      	})
+							      	// console.log("resizedDetections[i]" , resizedDetections[i])
+							      	//for cropping
+							      	const region = resizedDetections[i].detection.box;
+
+							      	// console.log("region" ,region)
+
+							      	// console.log("videoCam..." , videoCam.currentSrc)
+							      	this.capture(region).then( cropImage =>{
+							      		// console.log("pssss" ,image)
+							      		// alert(cropImage)
+
+							      		// alert(captured)
+								      	newDetections.unshift({
+								      		key : key ,
+								      		person : this.state.peopleDb[result.label],
+								      		detectionImage : cropImage
+								      	})
 
 
-							      	setTimeout(()=>{
-							      		// alert("to be deleted!" , key)
-							      		this.removeDetectionByKey(key)
-							      		console.log(key)
-					      				document.getElementById("eye").style.color = '#000'
+								      	setTimeout(()=>{
+								      		// alert("to be deleted!" , key)
+								      		this.removeDetectionByKey(key)
+								      		console.log(key)
+						      				document.getElementById("eye").style.color = '#000'
 
-							      	},5000)
+								      	},5000)
 
-							      	this.setState({ detections : newDetections});
-							      	console.log('new detections' , this.state.detections )
+								      	this.setState({ detections : newDetections});
+								      	console.log('new detections' , this.state.detections )
+							      	
+							      	});
+							      	
 					      		}else{
 					      			console.log("already detected!!!!!!!!!!!")
 
@@ -404,14 +422,45 @@ class LiveMonitoring extends Component{
 	//     [this.webcamRef]
 	// );
 
-	capture(){
+	async capture(box){
+		//working, whole image
+		// const imageSrc = this.webcamRef.current.getScreenshot();
+		//     return imageSrc;
+
 		const imageSrc = this.webcamRef.current.getScreenshot();
+	    let base64  = imageSrc.split(';base64,').pop()
 
-		// console.log
-	    // alert(imageSrc)
-	    return imageSrc;
 
-	      // alert("imageSrc")
+		return Jimp.read( Buffer.from(base64, 'base64') )
+		  .then(image => {
+		    
+		  	// console.log("imagesssssszzz" , image)
+		  	const xAdditional = box.width * 0.15;
+		  	const yAdditional = box.height * 0.20;
+
+		  	return image.crop(
+		  					box.x - xAdditional,
+		  					box.y  - (yAdditional * 2),
+		  					box.width  + (xAdditional * 2),
+		  					box.height + (yAdditional * 2)
+		  				)
+		  				.getBase64Async(Jimp.MIME_JPEG)
+				  		.then(newImage =>{
+
+				  			console.log("imagesssssszzz" , newImage)
+
+				  		 	return newImage;
+				  		 	// alert("oks")
+				  		})
+
+		  })
+		  .catch(err => {
+		    // Handle an exception.
+		    console.log(err)
+		    alert("may mali")
+		  });
+
+
 	}
 
 

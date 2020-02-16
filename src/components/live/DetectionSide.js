@@ -3,6 +3,7 @@ import { findFlagUrlByCountryName } from "country-flags-svg";
 import { nodeServer } from "../../base64function.js"
 
 
+
 class DetectionSide extends Component{
 
 
@@ -15,7 +16,7 @@ class DetectionSide extends Component{
 	render(){
 
 		// alert("zd?????????????")
-		console.log(this.props)
+		// console.log(this.props)
 		return (
 			<div className="card has-background-dark" style={{ width : 'auto' , height :'100%' }} >
 				<header className="card-header">
@@ -27,7 +28,7 @@ class DetectionSide extends Component{
 
 			  		{
 			  			this.props.detections.map( detection => {
-			  				console.log('detectionzzzww' , detection)
+			  				// console.log('detectionzzzww' , detection)
 			  				const person = detection.person;
 			  				return <article 
 			  								className={ person.isWatched ? 'message is-danger animated  bounceIn' : 'message is-success animated  bounceIn' }
@@ -52,8 +53,8 @@ class DetectionSide extends Component{
 									    	</div>
 									    	<div className="column">
 
-												  <img className="" src={detection.detectionImage} style={{ height : '120px'}}/>
-												
+												  <img className=""  src={detection.detectionImage} style={{ height : '120px'}}/>
+
 
 									    	</div>
 									    </div>

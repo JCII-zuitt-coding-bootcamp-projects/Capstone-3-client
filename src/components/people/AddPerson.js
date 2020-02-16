@@ -44,13 +44,17 @@ const AddPerson = (props) =>{
 				}).then((data) => {
 					console.log(data)
 
-					Swal.close()
-					Swal.fire({
-						icon: "success",
-						title: "New person added successfully",
-					})
-
-					window.location.href = '/people'
+					
+					//delay
+					setTimeout(e => {
+						Swal.close()
+						Swal.fire({
+							icon: "success",
+							title: "New person added successfully",
+						})
+						window.location.href = '/people'
+					}, 4000)
+					
 
 				})
 

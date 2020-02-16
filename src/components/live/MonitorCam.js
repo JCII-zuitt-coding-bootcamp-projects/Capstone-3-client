@@ -27,7 +27,7 @@ class MonitorCam extends Component{
 				height="100%"
 		  		screenshotQuality={1}
 		  		ref={this.props.webcamRef}
-
+		  		screenshotFormat="image/jpeg"
 		  		onUserMedia={ () =>{
 		  			console.log("onUserMedia received a stream!")
 		  		}}

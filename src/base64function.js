@@ -15,7 +15,8 @@ const toBase64 = file =>
 	});
 
 const nodeServer = () => {
-	return keys.imagesServer;
+	// return keys.imagesServer;
+	return ''; //from cloudinary links kasi
 };
 
 export { toBase64, nodeServer };

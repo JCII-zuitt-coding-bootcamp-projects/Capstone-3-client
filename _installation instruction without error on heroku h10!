@@ -1,1 +1,6 @@
+Blog tut
 https://dev.to/smithmanny/deploy-your-react-app-to-heroku-2b6f
+
+
+heroku build pack to put in setting for react app!
+https://github.com/mars/create-react-app-buildpack

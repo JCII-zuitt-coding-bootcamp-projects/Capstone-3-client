@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.7",
     "country-flags-svg": "^0.2.12",
+    "date-format": "^3.0.0",
     "face-api.js": "^0.22.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.1",

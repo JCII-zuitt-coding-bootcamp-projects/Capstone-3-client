@@ -8,6 +8,11 @@ import DetectionSide from './DetectionSide'
 import { graphql } from "react-apollo"
 import { getAllPeopleInfoForCameraDetection } from "../../gql/queriesFacade";
 
+import { createDetection } from "../../gql/mutationsFacade";
+
+import { flowRight as compose } from 'lodash'
+
+
 import { nodeServer } from "../../base64function.js"
 
 import Swal from 'sweetalert2'
@@ -333,18 +338,23 @@ class LiveMonitoring extends Component{
 							      	//for cropping
 							      	const region = resizedDetections[i].detection.box;
 
-							      	// console.log("region" ,region)
 
-							      	// console.log("videoCam..." , videoCam.currentSrc)
 							      	this.capture(region).then( cropImage =>{
 							      		// console.log("pssss" ,image)
 							      		// alert(cropImage)
 
 							      		// alert(captured)
+							      		// console.log()
 								      	newDetections.unshift({
 								      		key : key ,
 								      		person : this.state.peopleDb[result.label],
 								      		detectionImage : cropImage
+								      	})
+
+
+								      	this.uploadDetected({
+								      		personId : this.state.peopleDb[result.label].id,
+											image : cropImage
 								      	})
 
 
@@ -463,6 +473,20 @@ class LiveMonitoring extends Component{
 
 	}
 
+	async uploadDetected(detection){
+		// alert("uploading...")
+		this.props.createDetection({
+			variables : detection,
+			// refetchQueries : [{query : getMembersQuery }]
+		}).then((data) => {
+			console.log(data)
+
+			// alert("uploaded!")
+
+		})
+
+	}
+
 
 	render(){
 
@@ -508,4 +532,10 @@ class LiveMonitoring extends Component{
 
 // export default LiveMonitoring
 
-export default graphql(getAllPeopleInfoForCameraDetection)(LiveMonitoring)
+// export default graphql(getAllPeopleInfoForCameraDetection)(LiveMonitoring)
+
+export default compose(
+		graphql(getAllPeopleInfoForCameraDetection),
+		graphql(createDetection , { name : 'createDetection' }),
+
+	)(LiveMonitoring);

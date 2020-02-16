@@ -10,6 +10,7 @@ import updateAdmin from './mutations/updateAdmin'
 
 import deletePerson from './mutations/deletePerson'
 import deleteAdmin from './mutations/deleteAdmin'
+import createDetection from './mutations/createDetection'
 
 
 
@@ -22,4 +23,5 @@ export {
 		updateAdmin,
 		deletePerson,
 		deleteAdmin,
+		createDetection
 	};

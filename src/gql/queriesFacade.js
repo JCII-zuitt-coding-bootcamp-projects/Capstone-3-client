@@ -6,6 +6,7 @@ import getPerson from './queries/getPerson'
 import getAllPeopleInfoForCameraDetection from './queries/getAllPeopleInfoForCameraDetection' // for camera
 import getAdmins from './queries/getAdmins'
 import getAdmin from './queries/getAdmin'
+import getDetections from './queries/getDetections'
 
 
 
@@ -14,5 +15,6 @@ export {
 		getPerson,
 		getAllPeopleInfoForCameraDetection,
 		getAdmins,
-		getAdmin
+		getAdmin,
+		getDetections
 	};

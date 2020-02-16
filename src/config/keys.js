@@ -21,6 +21,7 @@ module.exports = {
 	imagesServer : 'https://eyesecure-server.herokuapp.com/',
 
 
+
 	/*Production - Presentation */
 	
 	// apolloClientURI : 'http://localhost:4000/capstone3-gql', 

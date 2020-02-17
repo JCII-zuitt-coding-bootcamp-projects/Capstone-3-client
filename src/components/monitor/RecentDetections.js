@@ -56,6 +56,11 @@ const RecentDetections = (props) =>{
 
 	if( detections != null && detections.length > 0){
 		lists = detections.map((detection , i) =>{
+
+			if(detection.person == null){
+				return;
+			}
+
 			return  <tr key={i}>
 
 				  		<td>{ detection.person.firstName }</td>
